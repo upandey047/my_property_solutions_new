@@ -1,0 +1,123 @@
+{% extends "dashboard/base.html" %}
+{% load widget_tweaks %}
+
+{% block title %} Owner Details {% endblock title %}
+
+{% block stylesheets %}
+{{ block.super }}
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+  <div class="x_content">
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            {% include 'deals/deals_navbar.html' with deal_id=deal_id lead_id=lead_id %}
+            <div class="clearfix"></div>
+          </div>
+
+          {% if messages %}
+          <ul class='messages'>
+            {% for message in messages %}
+            {% if message.tags == 'submitted success' %}
+            <div class='alert alert-success col-xs-12'>
+              <strong class='{{ message.tags }}'>{{ message }}</strong>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Owner(s)</h2>
+                  <a href="{% url 'dashboard:deals:edit_owner_details' deal_id %}" class="btn btn-primary"
+                    style="float:right">Edit</a>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <table class="table">
+                    {% for owner in deal.lead.property.property_owner.all %}
+                    <tr>
+                      <td>Owner {{ forloop.counter }} Details</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <th>First Name:</th>
+                      <td>{{ owner.first_name|default_if_none:"" }}</td>
+                    </tr>
+                    <tr>
+                      <th>Last Name:</th>
+                      <td>{{ owner.last_name|default_if_none:"" }}</td>
+                    </tr>
+                    <tr>
+                      <th>Phone:</th>
+                      <td>{{ owner.mobile|default_if_none:"" }}</td>
+                    </tr>
+                    <tr>
+                      <th>Email:</th>
+                      <td>{{ owner.email|default_if_none:"" }}</td>
+                    </tr>
+                    <tr>
+                      <th></th>
+                      <td></td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+
+
+
+                  </table>
+
+                  <h2> <b>ADD A PARTY</b> </h2> <br>
+                  <table>
+                    <a href="{% url 'dashboard:deals:solicitorlist' %}"><button type="button"
+                        class="btn btn-success">SOLICITOR</button></a> <br> <br>
+                    <a href="{% url 'dashboard:deals:agentlist' %}"><button type="button"
+                        class="btn btn-success">AGENT</button></a>
+                    <a href="{% url 'dashboard:deals:banklist' %}"><button type="button"
+                        class="btn btn-success">BANK</button></a> <br> <br>
+                    <a href="{% url 'dashboard:deals:executorlist' %}"><button type="button"
+                        class="btn btn-success">EXECUTOR</button></a>
+                    <a href="{% url 'dashboard:deals:familylist' %}"><button type="button"
+                        class="btn btn-success">FAMILY</button></a> <br> <br>
+                    <a href="{% url 'dashboard:deals:liquidatorlist' %}"><button type="button"
+                        class="btn btn-success">LIQUIDATOR</button></a>
+                    <a href="{% url 'dashboard:deals:otherlist' %}"><button type="button"
+                        class="btn btn-success">OTHER</button></a> <br> <br>
+
+                  </table>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  {% endblock content %}
+
+  {% block javascripts %}
+  {{ block.super}}
+  <script type="text/javascript">
+    $('#owner-details').addClass('active');
+    $('#deal-card').addClass('active');
+  </script>
+
+  <!-- if user clicks on Renovation in deals navbar then it is handled by an ajax call -->
+  <script src="/static/custom/custom_js.js"></script>
+
+  <script>
+    $(document).on("click", "#renovation-details", function () {
+      name("{{deal_id}}", "{{lead_id}}");
+    });
+  </script>
+  {% endblock javascripts %}
