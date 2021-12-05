@@ -980,6 +980,101 @@ class MarketResearchDeleteView(DeleteView):
     model=MarketResearch
     fields = '__all__'
     success_url=reverse_lazy('dashboard:settings:marketresearch-list')
+    
+#Offer/Finance
+class Offer_FinanceListView(ListView):
+    model=Offer_Finance
+    
+class Offer_FinanceCreateView(CreateView):
+    model=Offer_Finance
+    fields = '__all__'
+     
+    
+class Offer_FinanceUpdateView(UpdateView):
+    model=Offer_Finance
+    fields = '__all__'
+    
+    
+class Offer_FinanceDeleteView(DeleteView):
+    model=Offer_Finance
+    fields = '__all__'
+    success_url=reverse_lazy('dashboard:settings:offerfinance-list')
+    
+#Exchange/Settlement
+class Exchange_SettlementListView(ListView):
+    model=Exchange_Settlement
+    
+class Exchange_SettlementCreateView(CreateView):
+    model=Exchange_Settlement
+    fields = '__all__'
+     
+    
+class Exchange_SettlementUpdateView(UpdateView):
+    model=Exchange_Settlement
+    fields = '__all__'
+    
+    
+class Exchange_SettlementDeleteView(DeleteView):
+    model=Exchange_Settlement
+    fields = '__all__'
+    success_url=reverse_lazy('dashboard:settings:exchangesettlement-list')
+    
+#Renovation
+class RenovationListView(ListView):
+    model=Renovation
+    
+class RenovationCreateView(CreateView):
+    model=Renovation
+    fields = '__all__'
+     
+    
+class RenovationUpdateView(UpdateView):
+    model=Renovation
+    fields = '__all__'
+    
+    
+class RenovationDeleteView(DeleteView):
+    model=Renovation
+    fields = '__all__'
+    success_url=reverse_lazy('dashboard:settings:renovation-list')
+    
+#ListingForSale
+class ListingForSaleListView(ListView):
+    model=ListingForSale
+    
+class ListingForSaleCreateView(CreateView):
+    model=ListingForSale
+    fields = '__all__'
+     
+    
+class ListingForSaleUpdateView(UpdateView):
+    model=ListingForSale
+    fields = '__all__'
+    
+    
+class ListingForSaleDeleteView(DeleteView):
+    model=ListingForSale
+    fields = '__all__'
+    success_url=reverse_lazy('dashboard:settings:listingforsale-list')
+    
+#Sale_Exchange_Settlement
+class Sale_Exchange_SettlementListView(ListView):
+    model=Sale_Exchange_Settlement
+    
+class Sale_Exchange_SettlementCreateView(CreateView):
+    model=Sale_Exchange_Settlement
+    fields = '__all__'
+     
+    
+class Sale_Exchange_SettlementUpdateView(UpdateView):
+    model=Sale_Exchange_Settlement
+    fields = '__all__'
+    
+    
+class Sale_Exchange_SettlementDeleteView(DeleteView):
+    model=Sale_Exchange_Settlement
+    fields = '__all__'
+    success_url=reverse_lazy('dashboard:settings:saleexchangesettlement-list')
 
     
 

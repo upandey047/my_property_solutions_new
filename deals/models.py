@@ -1100,6 +1100,7 @@ class Sold(models.Model):
         blank=True,
     )
 
+from django.core.exceptions import ValidationError
 class Solicitor(models.Model):
     lawFirm=models.CharField(max_length=100)
     contactName=models.CharField(max_length=300)
@@ -1115,6 +1116,11 @@ class Solicitor(models.Model):
     
     def get_absolute_url(self):
         return reverse('dashboard:deals:solicitorlist')
+    
+    def clean(self):
+        model = self.__class__
+        if len(str(self.phone))!= 10:
+            raise ValidationError("Phone number must be 10 digits long!! ")
 
 
 class Agent(models.Model):
@@ -1130,6 +1136,11 @@ class Agent(models.Model):
     
     def get_absolute_url(self):
         return reverse('dashboard:deals:agentlist')
+    
+    def clean(self):
+        model = self.__class__
+        if len(str(self.phone))!= 10:
+            raise ValidationError("Phone number must be 10 digits long!! ")
 
 class Bank(models.Model):
     name=models.CharField(max_length=200)
@@ -1145,6 +1156,12 @@ class Bank(models.Model):
     def get_absolute_url(self):
         return reverse('dashboard:deals:banklist')
     
+    def clean(self):
+        model = self.__class__
+        if len(str(self.phone))!= 10:
+            raise ValidationError("Phone number must be 10 digits long!! ")
+    
+   
 class Executor(models.Model):
     name=models.CharField(max_length=200)
     company=models.CharField(max_length=200)
@@ -1158,6 +1175,11 @@ class Executor(models.Model):
     
     def get_absolute_url(self):
         return reverse('dashboard:deals:executorlist')
+    
+    def clean(self):
+        model = self.__class__
+        if len(str(self.phone))!= 10:
+            raise ValidationError("Phone number must be 10 digits long!! ")
     
     
 class Liquidator(models.Model):
@@ -1174,6 +1196,11 @@ class Liquidator(models.Model):
     def get_absolute_url(self):
         return reverse('dashboard:deals:liquidatorlist')
     
+    def clean(self):
+        model = self.__class__
+        if len(str(self.phone))!= 10:
+            raise ValidationError("Phone number must be 10 digits long!! ")
+    
 
 class Family(models.Model):
     name=models.CharField(max_length=200)
@@ -1188,6 +1215,11 @@ class Family(models.Model):
     
     def get_absolute_url(self):
         return reverse('dashboard:deals:familylist')
+    
+    def clean(self):
+        model = self.__class__
+        if len(str(self.phone))!= 10:
+            raise ValidationError("Phone number must be 10 digits long!! ")
     
     
 
@@ -1204,6 +1236,11 @@ class Other(models.Model):
     
     def get_absolute_url(self):
         return reverse('dashboard:deals:otherlist')
+    
+    def clean(self):
+        model = self.__class__
+        if len(str(self.phone))!= 10:
+            raise ValidationError("Phone number must be 10 digits long!! ")
     
 
     
