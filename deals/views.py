@@ -1,5 +1,6 @@
 from django.db.models import fields
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
+from django.http import JsonResponse
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView
@@ -6599,6 +6600,7 @@ def method_for_calculating_current_expenses(deal_id):  # NOQA: C901
 class SolicitorListView(ListView):
     model=Solicitor
     fields = '__all__'
+
         
 class SolicitorCreateView(CreateView):
     model=Solicitor
@@ -6608,8 +6610,8 @@ class SolicitorCreateView(CreateView):
 class SolicitorUpdateView(UpdateView):
     model=Solicitor
     fields = '__all__'
-    
-        
+    template_name = "deals/solicitor_form_edit.html"
+
 class SolicitorDeleteView(DeleteView):
     model=Solicitor
     fields = '__all__'
@@ -6628,6 +6630,7 @@ class AgentCreateView(CreateView):
 class AgentUpdateView(UpdateView):
     model=Agent
     fields = '__all__'
+    template_name = "deals/agent_form_edit.html"
     
         
 class AgentDeleteView(DeleteView):
@@ -6649,6 +6652,7 @@ class BankCreateView(CreateView):
 class BankUpdateView(UpdateView):
     model=Bank
     fields = '__all__'
+    template_name = "deals/bank_form_edit.html"
     
         
 class BankDeleteView(DeleteView):
@@ -6669,6 +6673,7 @@ class ExecutorCreateView(CreateView):
 class ExecutorUpdateView(UpdateView):
     model=Executor
     fields = '__all__'
+    template_name = "deals/executor_form_edit.html"
     
         
 class ExecutorDeleteView(DeleteView):
@@ -6690,6 +6695,7 @@ class FamilyCreateView(CreateView):
 class FamilyUpdateView(UpdateView):
     model=Family
     fields = '__all__'
+    template_name = "deals/family_form_edit.html"
     
         
 class FamilyDeleteView(DeleteView):
@@ -6711,6 +6717,7 @@ class LiquidatorCreateView(CreateView):
 class LiquidatorUpdateView(UpdateView):
     model=Liquidator
     fields = '__all__'
+    template_name = "deals/liquidator_form_edit.html"
     
         
 class LiquidatorDeleteView(DeleteView):
@@ -6733,7 +6740,13 @@ class OtherCreateView(CreateView):
 class OtherUpdateView(UpdateView):
     model=Other
     fields = '__all__'
-    template_name='deals/other/other_form.html'
+    template_name='deals/other/other_form_edit.html'
+
+    def get(self, request, **kwargs):
+        print(self.request.id)
+        return self.request.id
+
+
     
         
 class OtherDeleteView(DeleteView):
@@ -6744,9 +6757,62 @@ class OtherDeleteView(DeleteView):
 
 
 
-   
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+def solicitor_list(request):
+    context={}
+    id=request.POST.get('id',0)
+    solicitors=Solicitor.objects.filter().order_by('-id')
+    select_list=solicitors
 
+    if not id=="0" or 0:
+        solicitors =solicitors.filter(id=id)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(solicitors, 3)
 
+    try:
+        solicitors_list = paginator.page(page)
+    except PageNotAnInteger:
+        solicitors_list = paginator.page(1)
+    except EmptyPage:
+        solicitors_list = paginator.page(paginator.num_pages)
+
+    context['solicitor_list']=solicitors_list
+    context['select_list']=select_list
+    return render(request,'deals/solicitor_listing.html',context)
+from .forms import SolicitorForm
+def solicitor_add(request):
+    context={}
+    form =SolicitorForm(request.POST or None)
+    if form.is_valid():
+        myform =form.save(commit=False)
+        d_id = request.POST.get('d_id')
+        print(d_id)
+        myform.owner_id="1"
+        myform.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/solicitor_form.html',context)
+
+def solicitor_edit(request,pk=None):
+    context={}
+
+    context['pk']=pk
+    s_obj =Solicitor.objects.get(pk=pk)
+    form =SolicitorForm(request.POST or None, instance=s_obj)
+    if form.is_valid():
+        form.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/solicitor_form_edit.html',context)
+
+def solicitor_delete(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Solicitor.objects.get(pk=pk)
+    if request.method=="POST":
+        s_obj.delete()
+        return JsonResponse({'success':"ok"})
+    return render(request,'deals/solicitor_confirm_delete.html',context)
 
 
 

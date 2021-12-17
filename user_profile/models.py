@@ -2,9 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-
 User = get_user_model()
-
 
 class Profile(models.Model):
     class Meta:

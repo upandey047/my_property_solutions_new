@@ -4,6 +4,14 @@ from . import views
 app_name = "deals"
 
 urlpatterns = [
+    path('owner-details/solicitorListing/',views.solicitor_list,name='solicitorlisting'),
+    path('owner-details/solicitorcreate/',views.solicitor_add,name='solicitor_create'),
+    path('owner-details/solicitorupdate/<pk>/',views.solicitor_edit,name='solicitor_edit'),
+    path('owner-details/solicitordelete/<pk>/',views.solicitor_delete,name='solicitor_delete'),
+
+
+
+
     path('owner-details/solicitorList',views.SolicitorListView.as_view(),name='solicitorlist'),
     path('owner-details/solicitorCreate',views.SolicitorCreateView.as_view(),name='solicitorcreate'),
     path('owner-details/solicitorUpdate/<int:pk>/',views.SolicitorUpdateView.as_view(),name='solicitorupdate'),

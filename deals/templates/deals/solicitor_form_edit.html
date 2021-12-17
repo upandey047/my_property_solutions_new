@@ -1,25 +1,29 @@
 
 {% load widget_tweaks %}
 
+<h2>{{ add_or_edit|title }} Event</h2>
+
 <form method="POST" id="addModelFormAjax" class="form-horizontal form-label-left myform123" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="x_content">
-                <h4 class="text-muted">Are You sure want to delete?</h4>
+                <table>
+                    {{form.as_p}}
+                </table>
             </div>
-            <div class="col-md-2">
-              <input type="submit" value="Delete" class="btn btn-danger btn-sm" />
+            <div class="col-md-6 col-sm-6 col-xs-12 col-sm-offset-3">
+              <input type="submit" value="Submit" class="btn btn-success btn-sm" />
             </div>
           </form>
 
 
 <script>
  $("input").addClass("form-control");
-  $(".modal-title").html("Edit Delete");
     $('#addModelFormAjax').submit(function(e){
         e.preventDefault();
        var formData = new FormData(this);
+       $(".modal-title").html("Edit Solicitor");
        $.ajax({
-            url:'{% url "dashboard:deals:solicitor_delete" pk %}',
+            url:'{% url "dashboard:deals:solicitor_edit" pk %}',
             data:formData,
             type:"post",
             contentType: false,

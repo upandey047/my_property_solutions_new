@@ -1,12 +1,8 @@
 from django import forms
-
 from .models import Reminders
-
-
 class ReminderForm(forms.ModelForm):
     date = forms.DateField()
     time = forms.TimeField()
-
     class Meta:
         fields = ["date", "time", "notes"]
         model = Reminders

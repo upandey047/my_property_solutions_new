@@ -8,116 +8,196 @@
 {% endblock stylesheets %}
 
 {% block content %}
+<style>
+    .header{
+    background:#2a3f54;
+    color:white;
+    padding:10px;
+    }
+    .tab-section{
+    border:solid 1px #2a3f54;
+    background:#fff;
+    padding:10px;
+    }
+</style>
 <div class="right_col" role="main">
-  <div class="x_content">
-    <div class="row">
-      <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-          <div class="x_title">
-            {% include 'deals/deals_navbar.html' with deal_id=deal_id lead_id=lead_id %}
-            <div class="clearfix"></div>
-          </div>
+    <div class="x_content">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        {% include 'deals/deals_navbar.html' with deal_id=deal_id lead_id=lead_id %}
+                        <div class="clearfix"></div>
+                    </div>
 
-          {% if messages %}
-          <ul class='messages'>
-            {% for message in messages %}
-            {% if message.tags == 'submitted success' %}
-            <div class='alert alert-success col-xs-12'>
-              <strong class='{{ message.tags }}'>{{ message }}</strong>
-            </div>
-            {% endif %}
-            {% endfor %}
-          </ul>
-          {% endif %}
-
-          <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2>Owner(s)</h2>
-                  <a href="{% url 'dashboard:deals:edit_owner_details' deal_id %}" class="btn btn-primary"
-                    style="float:right">Edit</a>
-                  <div class="clearfix"></div>
+                    {% if messages %}
+                    <ul class='messages'>
+                        {% for message in messages %}
+                        {% if message.tags == 'submitted success' %}
+                        <div class='alert alert-success col-xs-12'>
+                            <strong class='{{ message.tags }}'>{{ message }}</strong>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </div>
-                <div class="x_content">
-                  <table class="table">
-                    {% for owner in deal.lead.property.property_owner.all %}
-                    <tr>
-                      <td>Owner {{ forloop.counter }} Details</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <th>First Name:</th>
-                      <td>{{ owner.first_name|default_if_none:"" }}</td>
-                    </tr>
-                    <tr>
-                      <th>Last Name:</th>
-                      <td>{{ owner.last_name|default_if_none:"" }}</td>
-                    </tr>
-                    <tr>
-                      <th>Phone:</th>
-                      <td>{{ owner.mobile|default_if_none:"" }}</td>
-                    </tr>
-                    <tr>
-                      <th>Email:</th>
-                      <td>{{ owner.email|default_if_none:"" }}</td>
-                    </tr>
-                    <tr>
-                      <th></th>
-                      <td></td>
-                    </tr>
-                    {% endfor %}
-                  </table>
-
-
-
-                  </table>
-
-                  <h2> <b>ADD A PARTY</b> </h2> <br>
-                  <table>
-                    <a href="{% url 'dashboard:deals:solicitorlist' %}"><button type="button"
-                        class="btn btn-success">SOLICITOR</button></a> <br> <br>
-                    <a href="{% url 'dashboard:deals:agentlist' %}"><button type="button"
-                        class="btn btn-success">AGENT</button></a>
-                    <a href="{% url 'dashboard:deals:banklist' %}"><button type="button"
-                        class="btn btn-success">BANK</button></a> <br> <br>
-                    <a href="{% url 'dashboard:deals:executorlist' %}"><button type="button"
-                        class="btn btn-success">EXECUTOR</button></a>
-                    <a href="{% url 'dashboard:deals:familylist' %}"><button type="button"
-                        class="btn btn-success">FAMILY</button></a> <br> <br>
-                    <a href="{% url 'dashboard:deals:liquidatorlist' %}"><button type="button"
-                        class="btn btn-success">LIQUIDATOR</button></a>
-                    <a href="{% url 'dashboard:deals:otherlist' %}"><button type="button"
-                        class="btn btn-success">OTHER</button></a> <br> <br>
-
-                  </table>
-                </div>
-              </div>
             </div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
-
-
-          </div>
-        </div>
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
-    <div class="clearfix"></div>
-  </div>
-  {% endblock content %}
 
-  {% block javascripts %}
-  {{ block.super}}
-  <script type="text/javascript">
+  </div>
+</div>
+                <div class="tab-section">
+
+                    <h2 class="header"><b>ADD A PARTY</b></h2>
+                    <ul class="nav nav-pills">
+                        <li><a data-toggle="pill" href="#menu2" onclick="loadSolicitor()">SOLICITOR</a></li>
+                        <li><a data-toggle="pill" href="#menu3" onclick="loadAgent()">AGENT</a></li>
+                        <li><a data-toggle="pill" href="#menu4" onclick="loadBANK()">BANK</a></li>
+                        <li><a data-toggle="pill" href="#menu5" onclick="loadEXECUTOR()">EXECUTOR</a></li>
+                        <li><a data-toggle="pill" href="#menu6" onclick="loadFAMILY()">FAMILY</a></li>
+                        <li><a data-toggle="pill" href="#menu7" onclick="loadLIQUIDATOR()">LIQUIDATOR</a></li>
+                        <li><a data-toggle="pill" href="#menu8" onclick="loadOTHER()">OTHER</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="menu2" class="tab-pane fade">
+                            <div id="menu2_list">
+
+                          </div>
+                        </div>
+                        <div id="menu3" class="tab-pane fade">
+                            <h3>Menu 3......</h3>
+                            <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                                beatae vitae dicta sunt explicabo.</p>
+                        </div>
+                        <div id="menu4" class="tab-pane fade">
+                            <h3>Menu 3</h3>
+                            <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                                beatae vitae dicta sunt explicabo.</p>
+                        </div>
+                        <div id="menu5" class="tab-pane fade">
+                            <h3>Menu 3</h3>
+                            <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                                beatae vitae dicta sunt explicabo.</p>
+                        </div>
+                        <div id="menu6" class="tab-pane fade">
+                            <h3>Menu 3</h3>
+                            <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                                beatae vitae dicta sunt explicabo.</p>
+                        </div>
+                        <div id="menu7" class="tab-pane fade">
+                            <h3>Menu 7</h3>
+                            <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                                beatae vitae dicta sunt explicabo.</p>
+                        </div>
+                        <div id="menu8" class="tab-pane fade">
+                            <h3>Menu 3</h3>
+                            <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                                beatae vitae dicta sunt explicabo.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+
+{% block javascripts %}
+{{ block.super}}
+<script type="text/javascript">
     $('#owner-details').addClass('active');
     $('#deal-card').addClass('active');
-  </script>
 
-  <!-- if user clicks on Renovation in deals navbar then it is handled by an ajax call -->
-  <script src="/static/custom/custom_js.js"></script>
 
-  <script>
+</script>
+
+<!-- if user clicks on Renovation in deals navbar then it is handled by an ajax call -->
+<script src="/static/custom/custom_js.js"></script>
+
+<script>
+
     $(document).on("click", "#renovation-details", function () {
       name("{{deal_id}}", "{{lead_id}}");
     });
-  </script>
-  {% endblock javascripts %}
+
+
+</script>
+
+<script>
+
+
+ function loadSolicitor(tabid=0){
+    urlPATH ="{% url 'dashboard:deals:solicitorlisting' %}"
+    $.ajax({
+        url:urlPATH,
+        type:'post',
+        data:{'id':tabid, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        success:function(data){
+        $("#menu2_list").html(data);
+        }
+    });
+
+ }
+ function loadAgent(){
+    $("#menu3").load("{% url 'dashboard:deals:agentlist' %}");
+ }
+ function loadBANK(){
+    $("#menu4").load("{% url 'dashboard:deals:banklist' %}");
+ }
+
+ function loadEXECUTOR(){
+    $("#menu5").load("{% url 'dashboard:deals:executorlist' %}");
+ }
+
+ function loadFAMILY(){
+    $("#menu6").load("{% url 'dashboard:deals:familylist' %}");
+ }
+ function loadLIQUIDATOR(){
+    $("#menu7").load("{% url 'dashboard:deals:liquidatorlist' %}");
+ }
+
+ function loadOTHER(){
+    $("#menu8").load("{% url 'dashboard:deals:otherlist' %}");
+ }
+
+</script>
+
+{% endblock javascripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

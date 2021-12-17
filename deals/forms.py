@@ -462,3 +462,9 @@ class SoldForm(FormFormatter):
     class Meta:
         exclude = ["deal"]
         model = Sold
+
+from .models import Solicitor
+class SolicitorForm(forms.ModelForm):
+    class Meta:
+        model =Solicitor
+        exclude=("owner",)

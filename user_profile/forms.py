@@ -3,7 +3,6 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from user_profile.models import Profile
 
-
 class ProfileSignupForm(SignupForm):
     accept_marketing_email = forms.BooleanField(
         label=_(

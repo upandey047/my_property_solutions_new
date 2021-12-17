@@ -29,7 +29,6 @@ class Deal(models.Model):
     """
     The additional details are for purchase deal info
     """
-
     TYPE_CHOICES = (("WS", "WS"), ("SS", "SS"), ("TO", "TO"))
     lead = models.OneToOneField(
         Lead, on_delete=models.CASCADE, null=True, blank=True
@@ -129,8 +128,6 @@ class Purchase(models.Model):
         null=True,
         blank=True,
     )
-
-
 class PurchaseCosts(models.Model):
     purchase = models.ForeignKey(
         Purchase, on_delete=models.CASCADE, null=True, blank=True
@@ -1101,25 +1098,30 @@ class Sold(models.Model):
     )
 
 from django.core.exceptions import ValidationError
+from django.http import HttpResponse
+from leads.models import PropertyOwner
 class Solicitor(models.Model):
     lawFirm=models.CharField(max_length=100)
     contactName=models.CharField(max_length=300)
     postalAddress=models.CharField(max_length=400)
-    mobile=models.IntegerField()
+    mobile=models.CharField(max_length=10)
     officePhone=models.PositiveIntegerField(default=0)
     officeFax=models.PositiveIntegerField(default=0)
     email=models.EmailField()
+    owner =models.ForeignKey(PropertyOwner, on_delete=models.CASCADE, null=True,blank=True)
+
+    def get_id(self,obj):
+        return obj.id
 
     def __str__(self):
         return self.lawFirm
 
-    
     def get_absolute_url(self):
-        return reverse('dashboard:deals:solicitorlist')
-    
+        return reverse('dashboard:deals:owner_details')
+
     def clean(self):
         model = self.__class__
-        if len(str(self.phone))!= 10:
+        if len(str(self.mobile))!= 10:
             raise ValidationError("Phone number must be 10 digits long!! ")
 
 
@@ -1127,13 +1129,11 @@ class Agent(models.Model):
     name=models.CharField(max_length=200)
     company=models.CharField(max_length=200)
     address=models.CharField(max_length=400)
-    phone=models.IntegerField()
+    phone=models.CharField(max_length=10)
     email=models.EmailField()
-    
     def __str__(self):
         return self.name
 
-    
     def get_absolute_url(self):
         return reverse('dashboard:deals:agentlist')
     
@@ -1146,7 +1146,7 @@ class Bank(models.Model):
     name=models.CharField(max_length=200)
     company=models.CharField(max_length=200)
     address=models.CharField(max_length=400)
-    phone=models.IntegerField()
+    phone=models.CharField(max_length=10)
     email=models.EmailField()
     
     def __str__(self):
@@ -1166,7 +1166,7 @@ class Executor(models.Model):
     name=models.CharField(max_length=200)
     company=models.CharField(max_length=200)
     address=models.CharField(max_length=400)
-    phone=models.IntegerField()
+    phone=models.CharField(max_length=10)
     email=models.EmailField()
     
     def __str__(self):
@@ -1186,7 +1186,7 @@ class Liquidator(models.Model):
     name=models.CharField(max_length=200)
     company=models.CharField(max_length=200)
     address=models.CharField(max_length=400)
-    phone=models.IntegerField()
+    phone=models.CharField(max_length=10)
     email=models.EmailField()
     
     def __str__(self):
@@ -1206,7 +1206,7 @@ class Family(models.Model):
     name=models.CharField(max_length=200)
     company=models.CharField(max_length=200)
     address=models.CharField(max_length=400)
-    phone=models.IntegerField()
+    phone=models.CharField(max_length=10)
     email=models.EmailField()
     
     def __str__(self):
@@ -1227,7 +1227,7 @@ class Other(models.Model):
     name=models.CharField(max_length=200)
     company=models.CharField(max_length=200)
     address=models.CharField(max_length=400)
-    phone=models.IntegerField()
+    phone=models.CharField(max_length=10)
     email=models.EmailField()
     
     def __str__(self):

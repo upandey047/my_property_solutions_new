@@ -2,8 +2,6 @@ from django import forms
 
 from my_property_solutions.forms import FormFormatter
 from .models import NoteForMyself
-
-
 class NoteForMyselfForm(FormFormatter):
     class Meta:
         fields = ["note"]
