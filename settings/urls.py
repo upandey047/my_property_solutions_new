@@ -4,6 +4,11 @@ from . import views
 app_name = "settings"
 
 urlpatterns = [
+    # path('initialresearch1/',views.initial_research,name='init'),
+    
+    
+    
+    
     path("initial-research/",views.InitialListView.as_view(),name="initial-list",),
     path("initial-research-add/",views.InitialCreateView.as_view(),name="initial-create",),
     path("initial-research-update/<int:pk>",views.InitialUpdateView.as_view(),name="initial-update",),

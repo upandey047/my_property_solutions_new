@@ -55,3 +55,34 @@
   <div class="clearfix"></div>
 </div>
 {% endblock content %}
+# page = request.GET.get('page', 1)
+# paginator = Paginator(solicitors, 3)
+
+# try:
+#     solicitors_list = paginator.page(page)
+# except PageNotAnInteger:
+#     solicitors_list = paginator.page(1)
+# except EmptyPage:
+#     solicitors_list = paginator.page(paginator.num_pages)
+
+function loadAgent(){
+  $("#menu3").load("{% url 'dashboard:deals:agentlist' %}");
+}
+function loadBANK(){
+  $("#menu4").load("{% url 'dashboard:deals:banklist' %}");
+}
+
+function loadEXECUTOR(){
+  $("#menu5").load("{% url 'dashboard:deals:executorlist' %}");
+}
+
+function loadFAMILY(){
+  $("#menu6").load("{% url 'dashboard:deals:familylist' %}");
+}
+function loadLIQUIDATOR(){
+  $("#menu7").load("{% url 'dashboard:deals:liquidatorlist' %}");
+}
+
+function loadOTHER(){
+  $("#menu8").load("{% url 'dashboard:deals:otherlist' %}");
+}

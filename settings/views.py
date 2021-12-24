@@ -870,211 +870,213 @@ class DeleteEventOfCheckListView(View):
         return HttpResponseRedirect(self.get_success_url())
  
 #Initial Reasearch View
-class InitialListView(ListView):
+class InitialListView(LoginRequiredMixin,ListView):
     model=InitialResearch
     
-class InitialCreateView(CreateView):
+class InitialCreateView(LoginRequiredMixin,CreateView):
     model=InitialResearch    
     fields='__all__'
     
-class InitialUpdateView(UpdateView):
+class InitialUpdateView(LoginRequiredMixin,UpdateView):
     model=InitialResearch    
     fields='__all__'   
           
-class InitialDeleteView(DeleteView):
+class InitialDeleteView(LoginRequiredMixin,DeleteView):
     model=InitialResearch
     fields = '__all__'
     success_url=reverse_lazy('dashboard:settings:initial-list') 
 
 #Letter View
-class LetterListView(ListView):
+class LetterListView(LoginRequiredMixin,ListView):
     model=Letter
     
-class LetterCreateView(CreateView):
+class LetterCreateView(LoginRequiredMixin,CreateView):
     model=Letter
     fields = '__all__'
      
     
-class LetterUpdateView(UpdateView):
+class LetterUpdateView(LoginRequiredMixin,UpdateView):
     model=Letter
     fields = '__all__'
     
     
-class LetterDeleteView(DeleteView):
+class LetterDeleteView(LoginRequiredMixin,DeleteView):
     model=Letter
     fields = '__all__'
     success_url=reverse_lazy('dashboard:settings:letter-list') 
     
 #inspection
-class InspectionListView(ListView):
+class InspectionListView(LoginRequiredMixin,ListView):
     model=Inspection
     
-class InspectionCreateView(CreateView):
+class InspectionCreateView(LoginRequiredMixin,CreateView):
     model=Inspection
     fields = '__all__'
      
     
-class InspectionUpdateView(UpdateView):
+class InspectionUpdateView(LoginRequiredMixin,UpdateView):
     model=Inspection
     fields = '__all__'
     
     
-class InspectionDeleteView(DeleteView):
+class InspectionDeleteView(LoginRequiredMixin,DeleteView):
     model=Inspection
     fields = '__all__'
     success_url=reverse_lazy('dashboard:settings:inspection-list')
     
 #Due_dilligence
-class Due_DiligenceListView(ListView):
+class Due_DiligenceListView(LoginRequiredMixin,ListView):
     model=Due_Diligence
     
-class Due_DiligenceCreateView(CreateView):
+class Due_DiligenceCreateView(LoginRequiredMixin,CreateView):
     model=Due_Diligence
     fields = '__all__'
      
     
-class Due_DiligenceUpdateView(UpdateView):
+class Due_DiligenceUpdateView(LoginRequiredMixin,UpdateView):
     model=Due_Diligence
     fields = '__all__'
     
     
-class Due_DiligenceDeleteView(DeleteView):
+class Due_DiligenceDeleteView(LoginRequiredMixin,DeleteView):
     model=Due_Diligence
     fields = '__all__'
     success_url=reverse_lazy('dashboard:settings:duedilligence-list') 
     
 #PropertySerach
-class Property_SerachListView(ListView):
+class Property_SerachListView(LoginRequiredMixin,ListView):
     model=Property_Serach
     
-class Property_SerachCreateView(CreateView):
+class Property_SerachCreateView(LoginRequiredMixin,CreateView):
     model=Property_Serach
     fields = '__all__'
      
     
-class Property_SerachUpdateView(UpdateView):
+class Property_SerachUpdateView(LoginRequiredMixin,UpdateView):
     model=Property_Serach
     fields = '__all__'
     
     
-class Property_SerachDeleteView(DeleteView):
+class Property_SerachDeleteView(LoginRequiredMixin,DeleteView):
     model=Property_Serach
     fields = '__all__'
     success_url=reverse_lazy('dashboard:settings:propertysearch-list')
     
 #MarketResearch
-class MarketResearchListView(ListView):
+class MarketResearchListView(LoginRequiredMixin,ListView):
     model=MarketResearch
     
-class MarketResearchCreateView(CreateView):
+class MarketResearchCreateView(LoginRequiredMixin,CreateView):
     model=MarketResearch
     fields = '__all__'
      
     
-class MarketResearchUpdateView(UpdateView):
+class MarketResearchUpdateView(LoginRequiredMixin,UpdateView):
     model=MarketResearch
     fields = '__all__'
     
     
-class MarketResearchDeleteView(DeleteView):
+class MarketResearchDeleteView(LoginRequiredMixin,DeleteView):
     model=MarketResearch
     fields = '__all__'
     success_url=reverse_lazy('dashboard:settings:marketresearch-list')
     
 #Offer/Finance
-class Offer_FinanceListView(ListView):
+class Offer_FinanceListView(LoginRequiredMixin,ListView):
     model=Offer_Finance
     
-class Offer_FinanceCreateView(CreateView):
+class Offer_FinanceCreateView(LoginRequiredMixin,CreateView):
     model=Offer_Finance
     fields = '__all__'
      
     
-class Offer_FinanceUpdateView(UpdateView):
+class Offer_FinanceUpdateView(LoginRequiredMixin,UpdateView):
     model=Offer_Finance
     fields = '__all__'
     
     
-class Offer_FinanceDeleteView(DeleteView):
+class Offer_FinanceDeleteView(LoginRequiredMixin,DeleteView):
     model=Offer_Finance
     fields = '__all__'
     success_url=reverse_lazy('dashboard:settings:offerfinance-list')
     
 #Exchange/Settlement
-class Exchange_SettlementListView(ListView):
+class Exchange_SettlementListView(LoginRequiredMixin,ListView):
     model=Exchange_Settlement
     
-class Exchange_SettlementCreateView(CreateView):
+class Exchange_SettlementCreateView(LoginRequiredMixin,CreateView):
     model=Exchange_Settlement
     fields = '__all__'
      
     
-class Exchange_SettlementUpdateView(UpdateView):
+class Exchange_SettlementUpdateView(LoginRequiredMixin,UpdateView):
     model=Exchange_Settlement
     fields = '__all__'
     
     
-class Exchange_SettlementDeleteView(DeleteView):
+class Exchange_SettlementDeleteView(LoginRequiredMixin,DeleteView):
     model=Exchange_Settlement
     fields = '__all__'
     success_url=reverse_lazy('dashboard:settings:exchangesettlement-list')
     
 #Renovation
-class RenovationListView(ListView):
+class RenovationListView(LoginRequiredMixin,ListView):
     model=Renovation
     
-class RenovationCreateView(CreateView):
+class RenovationCreateView(LoginRequiredMixin,CreateView):
     model=Renovation
     fields = '__all__'
      
     
-class RenovationUpdateView(UpdateView):
+class RenovationUpdateView(LoginRequiredMixin,UpdateView):
     model=Renovation
     fields = '__all__'
     
     
-class RenovationDeleteView(DeleteView):
+class RenovationDeleteView(LoginRequiredMixin,DeleteView):
     model=Renovation
     fields = '__all__'
     success_url=reverse_lazy('dashboard:settings:renovation-list')
     
 #ListingForSale
-class ListingForSaleListView(ListView):
+class ListingForSaleListView(LoginRequiredMixin,ListView):
     model=ListingForSale
     
-class ListingForSaleCreateView(CreateView):
+class ListingForSaleCreateView(LoginRequiredMixin,CreateView):
     model=ListingForSale
     fields = '__all__'
      
     
-class ListingForSaleUpdateView(UpdateView):
+class ListingForSaleUpdateView(LoginRequiredMixin,UpdateView):
     model=ListingForSale
     fields = '__all__'
     
     
-class ListingForSaleDeleteView(DeleteView):
+class ListingForSaleDeleteView(LoginRequiredMixin,DeleteView):
     model=ListingForSale
     fields = '__all__'
     success_url=reverse_lazy('dashboard:settings:listingforsale-list')
     
 #Sale_Exchange_Settlement
-class Sale_Exchange_SettlementListView(ListView):
+class Sale_Exchange_SettlementListView(LoginRequiredMixin,ListView):
     model=Sale_Exchange_Settlement
     
-class Sale_Exchange_SettlementCreateView(CreateView):
+class Sale_Exchange_SettlementCreateView(LoginRequiredMixin,CreateView):
     model=Sale_Exchange_Settlement
     fields = '__all__'
      
     
-class Sale_Exchange_SettlementUpdateView(UpdateView):
+class Sale_Exchange_SettlementUpdateView(LoginRequiredMixin,UpdateView):
     model=Sale_Exchange_Settlement
     fields = '__all__'
     
     
-class Sale_Exchange_SettlementDeleteView(DeleteView):
+class Sale_Exchange_SettlementDeleteView(LoginRequiredMixin,DeleteView):
     model=Sale_Exchange_Settlement
     fields = '__all__'
     success_url=reverse_lazy('dashboard:settings:saleexchangesettlement-list')
+    
+    
 
     
 

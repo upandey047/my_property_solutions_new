@@ -49,21 +49,21 @@
                     <form method="POST" action="" class="form-horizontal form-label-left" id="bank-form">
                       {% csrf_token %}
                       <fieldset id="fieldset-1">
-                        <div class="col-sm-offset-3 col-md-9 col-sm-9 col-xs-12">
-                          <h2 class="form-title">Is The Property Mortgaged</h2>
-                        </div>
-                        <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ form.mortgaged.label }}
-                          </label>
-                          <div class="col-md-6 col-sm-6 col-xs-12">
-                            {{ form.mortgaged|add_error_class:"ve-sh-error-block" }}
-                          </div>
-                          <div class="col-sm-offset-3 col-md-9 col-sm-9 col-xs-12 ve-sh-error-text">
-                            {% for error in form.mortgaged.errors %}
-                              {{ error|escape }}
-                            {% endfor %}
-                          </div>
-                        </div>
+<!--                        <div class="col-sm-offset-3 col-md-9 col-sm-9 col-xs-12">-->
+<!--                          <h2 class="form-title">Is The Property Mortgaged</h2>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                          <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ form.mortgaged.label }}-->
+<!--                          </label>-->
+<!--                          <div class="col-md-6 col-sm-6 col-xs-12">-->
+<!--                            {{ form.mortgaged|add_error_class:"ve-sh-error-block" }}-->
+<!--                          </div>-->
+<!--                          <div class="col-sm-offset-3 col-md-9 col-sm-9 col-xs-12 ve-sh-error-text">-->
+<!--                            {% for error in form.mortgaged.errors %}-->
+<!--                              {{ error|escape }}-->
+<!--                            {% endfor %}-->
+<!--                          </div>-->
+<!--                        </div>-->
                         <div class="col-sm-offset-3 col-md-9 col-sm-9 col-xs-12">
                           <h2 class="form-title">Bank Details</h2>
                         </div>
@@ -438,7 +438,7 @@
     });
 
     var count = 0;
-    if ($('#id_mortgaged').val() == 'No'){
+    if ($('#id_mortgaged').val() == 'Yes'){
       $('input').each(function(){
         if (count <18){
           if ($(this).attr('type') != 'hidden') if ($(this).attr('type') != 'submit') {

@@ -16,9 +16,9 @@
 <table id="table" class="table table-striped">
       <thead>
         <tr>
-          <th>#</th>
+          
           <th>Law Firm</th>
-          <th>Owner Name</th>
+          <!-- <th>Owner Name</th> -->
           <th>Contact Name</th>
           <th>Postal Address</th>
           <th>Mobile</th>
@@ -32,9 +32,9 @@
       <tbody>
       {% for solicitor in solicitor_list %}
         <tr>
-            <td>{{solicitor.id}}</td>
+            <!-- <td>{{solicitor.id}}</td> -->
             <td>{{solicitor.lawFirm}}</td>
-            <td>{{solicitor.owner}}</td>
+            <!-- <td>{{solicitor.owner}}</td> -->
             <td>{{solicitor.contactName}}</td>
             <td>{{solicitor.postalAddress}}</td>
             <td>{{solicitor.mobile}}</td>
@@ -58,27 +58,7 @@
 
 </table>
 
-{% if solicitor_list.has_other_pages %}
-          <ul class="pagination">
-            {% if solicitor_list.has_previous %}
-              <li><a href="?page={{ solicitor_list.previous_page_number }}">&laquo;</a></li>
-            {% else %}
-              <li class="disabled"><span>&laquo;</span></li>
-            {% endif %}
-            {% for i in solicitor_list.paginator.page_range %}
-              {% if solicitor_list.number == i %}
-                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-              {% else %}
-                <li><a href="?page={{ i }}">{{ i }}</a></li>
-              {% endif %}
-            {% endfor %}
-            {% if solicitor_list.has_next %}
-              <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
-            {% else %}
-              <li class="disabled"><span>&raquo;</span></li>
-            {% endif %}
-          </ul>
-        {% endif %}
+
 
 {% else %}
   <div class="p-4">

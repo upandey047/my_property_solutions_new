@@ -21,9 +21,9 @@
     $('#addModelFormAjax').submit(function(e){
         e.preventDefault();
        var formData = new FormData(this);
-       $(".modal-title").html("Edit Other");
+       $(".modal-title").html("Edit Solicitor");
        $.ajax({
-            url:'{% url "dashboard:deals:other_edit" pk %}',
+            url:'{% url "dashboard:deals:solicitor_edit" pk %}',
             data:formData,
             type:"post",
             contentType: false,
@@ -35,7 +35,7 @@
             debugger;
             if(data.success=="ok"){
                 $('#myModal').modal('hide');
-                loadOther();
+                loadSolicitor();
             }else{
                 $(".modal-body").html(data);
             }

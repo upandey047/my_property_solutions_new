@@ -6755,9 +6755,11 @@ class OtherDeleteView(DeleteView):
     success_url=reverse_lazy('dashboard:deals:otherlist') 
     template_name='deals/other/other_confirm_delete.html'
 
-
-
+from . models import Bank
+from .forms import SolicitorForm,AgentForm,ExecutorForm,FamilyForm,LiquidatorForm,OtherForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+#SolicitorViews
 def solicitor_list(request):
     context={}
     id=request.POST.get('id',0)
@@ -6766,36 +6768,24 @@ def solicitor_list(request):
 
     if not id=="0" or 0:
         solicitors =solicitors.filter(id=id)
-    page = request.GET.get('page', 1)
-    paginator = Paginator(solicitors, 3)
-
-    try:
-        solicitors_list = paginator.page(page)
-    except PageNotAnInteger:
-        solicitors_list = paginator.page(1)
-    except EmptyPage:
-        solicitors_list = paginator.page(paginator.num_pages)
-
-    context['solicitor_list']=solicitors_list
+    context['solicitor_list']=solicitors
     context['select_list']=select_list
-    return render(request,'deals/solicitor_listing.html',context)
-from .forms import SolicitorForm
+    return render(request,'deals/solicitor/solicitor_listing.html',context)
+
 def solicitor_add(request):
     context={}
     form =SolicitorForm(request.POST or None)
     if form.is_valid():
         myform =form.save(commit=False)
         d_id = request.POST.get('d_id')
-        print(d_id)
-        myform.owner_id="1"
+        # myform.owner_id="1"
         myform.save()
         return JsonResponse({'success':"ok"})
     context['form']=form
-    return render(request,'deals/solicitor_form.html',context)
+    return render(request,'deals/solicitor/solicitor_form.html',context)
 
 def solicitor_edit(request,pk=None):
     context={}
-
     context['pk']=pk
     s_obj =Solicitor.objects.get(pk=pk)
     form =SolicitorForm(request.POST or None, instance=s_obj)
@@ -6803,7 +6793,7 @@ def solicitor_edit(request,pk=None):
         form.save()
         return JsonResponse({'success':"ok"})
     context['form']=form
-    return render(request,'deals/solicitor_form_edit.html',context)
+    return render(request,'deals/solicitor/solicitor_form_edit.html',context)
 
 def solicitor_delete(request,pk=None):
     context={}
@@ -6812,9 +6802,278 @@ def solicitor_delete(request,pk=None):
     if request.method=="POST":
         s_obj.delete()
         return JsonResponse({'success':"ok"})
-    return render(request,'deals/solicitor_confirm_delete.html',context)
+    return render(request,'deals/solicitor/solicitor_confirm_delete.html',context)
+
+#AgentViews
+def agent_list(request):
+    context={}
+    id=request.POST.get('id',0)
+    agents=Agent.objects.filter().order_by('-id')
+    select_list=agents
+
+    if not id=="0" or 0:
+        agents =agents.filter(id=id)
+    context['agent_list']=agents
+    context['select_list']=select_list
+    return render(request,'deals/agent/agent_listing.html',context)
+
+def agent_add(request):
+    context={}
+    form =AgentForm(request.POST or None)
+    if form.is_valid():
+        myform =form.save(commit=False)
+        d_id = request.POST.get('d_id')
+        # myform.owner_id="1"
+        myform.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/agent/agent_form.html',context)
+
+def agent_edit(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Agent.objects.get(pk=pk)
+    form =AgentForm(request.POST or None, instance=s_obj)
+    if form.is_valid():
+        form.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/agent/agent_form_edit.html',context)
+
+def agent_delete(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Agent.objects.get(pk=pk)
+    if request.method=="POST":
+        s_obj.delete()
+        return JsonResponse({'success':"ok"})
+    return render(request,'deals/agent/agent_confirm_delete.html',context)
+
+# bankViews
+def bank_list(request):
+    context={}
+    id=request.POST.get('id',0)
+    banks=Bank.objects.filter().order_by('-id')
+    select_list=banks
+
+    if not id=="0" or 0:
+        banks =banks.filter(id=id)
+    context['bank_list']=banks
+    context['select_list']=select_list
+    return render(request,'deals/bank/bank_listing.html',context)
+
+def bank_add(request):
+    context={}
+    form =BankForm(request.POST or None)
+    if form.is_valid():
+        myform =form.save(commit=False)
+        d_id = request.POST.get('d_id')
+        # myform.owner_id="1"
+        myform.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/bank/bank_form.html',context)
+
+def bank_edit(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Bank.objects.get(pk=pk)
+    form =BankForm(request.POST or None, instance=s_obj)
+    if form.is_valid():
+        form.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/bank/bank_form_edit.html',context)
+
+def bank_delete(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Bank.objects.get(pk=pk)
+    if request.method=="POST":
+        s_obj.delete()
+        return JsonResponse({'success':"ok"})
+    return render(request,'deals/bank/bank_confirm_delete.html',context)
 
 
+#executorViews
+def executor_list(request):
+    context={}
+    id=request.POST.get('id',0)
+    executors=Executor.objects.filter().order_by('-id')
+    select_list=executors
+
+    if not id=="0" or 0:
+        executors =executors.filter(id=id)
+    context['executor_list']=executors
+    context['select_list']=select_list
+    return render(request,'deals/executor/executor_listing.html',context)
+
+def executor_add(request):
+    context={}
+    form =ExecutorForm(request.POST or None)
+    if form.is_valid():
+        myform =form.save(commit=False)
+        d_id = request.POST.get('d_id')
+        # myform.owner_id="1"
+        myform.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/executor/executor_form.html',context)
+
+def executor_edit(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Executor.objects.get(pk=pk)
+    form =ExecutorForm(request.POST or None, instance=s_obj)
+    if form.is_valid():
+        form.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/executor/executor_form_edit.html',context)
+
+def executor_delete(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Executor.objects.get(pk=pk)
+    if request.method=="POST":
+        s_obj.delete()
+        return JsonResponse({'success':"ok"})
+    return render(request,'deals/executor/executor_confirm_delete.html',context)
+
+#familyViews
+def family_list(request):
+    context={}
+    id=request.POST.get('id',0)
+    familys=Family.objects.filter().order_by('-id')
+    select_list=familys
+
+    if not id=="0" or 0:
+        familys =familys.filter(id=id)
+    context['family_list']=familys
+    context['select_list']=select_list
+    return render(request,'deals/family/family_listing.html',context)
+
+def family_add(request):
+    context={}
+    form =FamilyForm(request.POST or None)
+    if form.is_valid():
+        myform =form.save(commit=False)
+        d_id = request.POST.get('d_id')
+        # myform.owner_id="1"
+        myform.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/family/family_form.html',context)
+
+def family_edit(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Family.objects.get(pk=pk)
+    form =FamilyForm(request.POST or None, instance=s_obj)
+    if form.is_valid():
+        form.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/family/family_form_edit.html',context)
+
+def family_delete(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Family.objects.get(pk=pk)
+    if request.method=="POST":
+        s_obj.delete()
+        return JsonResponse({'success':"ok"})
+    return render(request,'deals/family/family_confirm_delete.html',context)
+
+#liquidatorViews
+def liquidator_list(request):
+    context={}
+    id=request.POST.get('id',0)
+    liquidators=Liquidator.objects.filter().order_by('-id')
+    select_list=liquidators
+
+    if not id=="0" or 0:
+        liquidators =liquidators.filter(id=id)
+    context['liquidator_list']=liquidators
+    context['select_list']=select_list
+    return render(request,'deals/liquidator/liquidator_listing.html',context)
+
+def liquidator_add(request):
+    context={}
+    form =LiquidatorForm(request.POST or None)
+    if form.is_valid():
+        myform =form.save(commit=False)
+        d_id = request.POST.get('d_id')
+        # myform.owner_id="1"
+        myform.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/liquidator/liquidator_form.html',context)
+
+def liquidator_edit(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Liquidator.objects.get(pk=pk)
+    form =LiquidatorForm(request.POST or None, instance=s_obj)
+    if form.is_valid():
+        form.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/liquidator/liquidator_form_edit.html',context)
+
+def liquidator_delete(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Liquidator.objects.get(pk=pk)
+    if request.method=="POST":
+        s_obj.delete()
+        return JsonResponse({'success':"ok"})
+    return render(request,'deals/liquidator/liquidator_confirm_delete.html',context)
+
+#otherViews
+def other_list(request):
+    context={}
+    id=request.POST.get('id',0)
+    others=Other.objects.filter().order_by('-id')
+    select_list=others
+
+    if not id=="0" or 0:
+        others =others.filter(id=id)
+    context['other_list']=others
+    context['select_list']=select_list
+    return render(request,'deals/other/other_listing.html',context)
+
+def other_add(request):
+    context={}
+    form =OtherForm(request.POST or None)
+    if form.is_valid():
+        myform =form.save(commit=False)
+        d_id = request.POST.get('d_id')
+        # myform.owner_id="1"
+        myform.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/other/other_form.html',context)
+
+def other_edit(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Other.objects.get(pk=pk)
+    form =OtherForm(request.POST or None, instance=s_obj)
+    if form.is_valid():
+        form.save()
+        return JsonResponse({'success':"ok"})
+    context['form']=form
+    return render(request,'deals/other/other_form_edit.html',context)
+
+def other_delete(request,pk=None):
+    context={}
+    context['pk']=pk
+    s_obj =Other.objects.get(pk=pk)
+    if request.method=="POST":
+        s_obj.delete()
+        return JsonResponse({'success':"ok"})
+    return render(request,'deals/other/other_confirm_delete.html',context)
 
 
 

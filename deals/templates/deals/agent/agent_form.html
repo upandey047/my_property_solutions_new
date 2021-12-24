@@ -21,12 +21,12 @@
 aa= $("#deal_id").html();
 $("#d_id").val(aa);
  $("input").addClass("form-control");
- $(".modal-title").html("Edit Solicitor");
+ $(".modal-title").html("Add Agent");
     $('#addModelFormAjax').submit(function(e){
         e.preventDefault();
        var formData = new FormData(this);
        $.ajax({
-            url:'{% url "dashboard:deals:solicitor_create"%}',
+            url:'{% url "dashboard:deals:agent_create"%}',
             data:formData,
             type:"post",
             contentType: false,
@@ -37,7 +37,7 @@ $("#d_id").val(aa);
             success:function(data){
             $(".modal-body").html(data);
             $('#myModal').modal('hide');
-            loadSolicitor();
+            loadAgent();
 
             }
        });

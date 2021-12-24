@@ -1,10 +1,11 @@
 
 {% load widget_tweaks %}
 
-<h2>{{ add_or_edit|title }}</h2>
+
 
 <form method="POST" id="addModelFormAjax" class="form-horizontal form-label-left myform123" enctype="multipart/form-data">
             {% csrf_token %}
+            <input type="hidden" value="11" id="d_id">
             <div class="x_content">
                 <table>
                     {{form.as_p}}
@@ -17,13 +18,15 @@
 
 
 <script>
+aa= $("#deal_id").html();
+$("#d_id").val(aa);
  $("input").addClass("form-control");
+ $(".modal-title").html("Add Bank");
     $('#addModelFormAjax').submit(function(e){
         e.preventDefault();
        var formData = new FormData(this);
-       $(".modal-title").html("Edit Other");
        $.ajax({
-            url:'{% url "dashboard:deals:other_edit" pk %}',
+            url:'{% url "dashboard:deals:bank_create"%}',
             data:formData,
             type:"post",
             contentType: false,
@@ -32,13 +35,10 @@
                 $(".loading").show();
             },
             success:function(data){
-            debugger;
-            if(data.success=="ok"){
-                $('#myModal').modal('hide');
-                loadOther();
-            }else{
-                $(".modal-body").html(data);
-            }
+            $(".modal-body").html(data);
+            $('#myModal').modal('hide');
+            loadBank();
+
             }
        });
 

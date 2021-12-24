@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import fields
 
 from my_property_solutions.forms import FormFormatter
 from .models import (
@@ -463,8 +464,41 @@ class SoldForm(FormFormatter):
         exclude = ["deal"]
         model = Sold
 
-from .models import Solicitor
+from .models import Solicitor,Agent,Bank,Executor,Liquidator,Family,Other,Bank
 class SolicitorForm(forms.ModelForm):
     class Meta:
         model =Solicitor
         exclude=("owner",)
+        
+class AgentForm(forms.ModelForm):
+    class Meta:
+        model =Agent
+        fields='__all__'
+        
+# class BankForm(forms.ModelForm):
+#     class Meta:
+#         model =Bank
+#         fields='__all__'
+        
+class ExecutorForm(forms.ModelForm):
+    class Meta:
+        model =Executor
+        fields='__all__'
+        
+class FamilyForm(forms.ModelForm):
+    class Meta:
+        model =Family
+        fields='__all__'
+        
+class LiquidatorForm(forms.ModelForm):
+    class Meta:
+        model =Liquidator
+        fields='__all__'
+        
+class OtherForm(forms.ModelForm):
+    class Meta:
+        model =Other
+        fields='__all__'
+
+        
+
