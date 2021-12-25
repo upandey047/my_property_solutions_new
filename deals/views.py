@@ -81,7 +81,7 @@ from .models import (
     Sold,
     SaleDealInformation,
 )
-from leads.models import Entry, Lounge, Dining, Bathroom, Bedroom
+from leads.models import Entry, Lounge, Dining, Bathroom, Bedroom,Bank
 from leads.forms import (
     PropertyOwnerModelFormset,
     BankruptcyPropertyOwnerModelFormset,
@@ -6755,8 +6755,8 @@ class OtherDeleteView(DeleteView):
     success_url=reverse_lazy('dashboard:deals:otherlist') 
     template_name='deals/other/other_confirm_delete.html'
 
-from . models import Bank
-from .forms import SolicitorForm,AgentForm,ExecutorForm,FamilyForm,LiquidatorForm,OtherForm
+# from . models import Bank
+from .forms import SolicitorForm,AgentForm,ExecutorForm,FamilyForm,LiquidatorForm,OtherForm,Bank1Form
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 #SolicitorViews
@@ -6853,18 +6853,21 @@ def agent_delete(request,pk=None):
 def bank_list(request):
     context={}
     id=request.POST.get('id',0)
-    banks=Bank.objects.filter().order_by('-id')
+    # from leads.models import Bank
+    banks=Bank.objects.all().order_by('-id')
+    print(banks)
     select_list=banks
 
     if not id=="0" or 0:
         banks =banks.filter(id=id)
     context['bank_list']=banks
+    print(banks)
     context['select_list']=select_list
     return render(request,'deals/bank/bank_listing.html',context)
 
 def bank_add(request):
     context={}
-    form =BankForm(request.POST or None)
+    form =Bank1Form(request.POST or None)
     if form.is_valid():
         myform =form.save(commit=False)
         d_id = request.POST.get('d_id')
@@ -6878,7 +6881,7 @@ def bank_edit(request,pk=None):
     context={}
     context['pk']=pk
     s_obj =Bank.objects.get(pk=pk)
-    form =BankForm(request.POST or None, instance=s_obj)
+    form =Bank1Form(request.POST or None, instance=s_obj)
     if form.is_valid():
         form.save()
         return JsonResponse({'success':"ok"})

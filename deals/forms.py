@@ -464,7 +464,7 @@ class SoldForm(FormFormatter):
         exclude = ["deal"]
         model = Sold
 
-from .models import Solicitor,Agent,Bank,Executor,Liquidator,Family,Other,Bank
+from .models import Solicitor,Agent,Executor,Liquidator,Family,Other
 class SolicitorForm(forms.ModelForm):
     class Meta:
         model =Solicitor
@@ -475,10 +475,13 @@ class AgentForm(forms.ModelForm):
         model =Agent
         fields='__all__'
         
-# class BankForm(forms.ModelForm):
-#     class Meta:
-#         model =Bank
-#         fields='__all__'
+class Bank1Form(forms.ModelForm):
+    class Meta:
+        model =Bank
+        fields=['bank','unit','office_phone','email']
+        labels = {
+            'unit': 'Postal Address'        
+        }
         
 class ExecutorForm(forms.ModelForm):
     class Meta:
