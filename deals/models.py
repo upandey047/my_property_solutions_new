@@ -95,7 +95,7 @@ class Purchase(models.Model):
         _("Renovation Required"),
         choices=RENOVATION_CHOICES,
         max_length=5,
-        default="No",
+        default="Yes",
     )
     renovation_allowance = models.CharField(
         _("Renovation Allowance"),
@@ -1142,7 +1142,7 @@ class Agent(models.Model):
         if len(str(self.phone))!= 10:
             raise ValidationError("Phone number must be 10 digits long!! ")
 
-class Bank(models.Model):
+class BankNew(models.Model):
     name=models.CharField(max_length=200)
     company=models.CharField(max_length=200)
     address=models.CharField(max_length=400)

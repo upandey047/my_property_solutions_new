@@ -30,8 +30,8 @@
             <div class="x_content">
               <div class="container">
                 <ul class="nav nav-tabs">
-                  <li id="deal_info" class="active"><a href="#deal-info-div">Purchase Details</a></li>
-                  <li id="deal_info1"><a href="#deal-info1-div">Sale Details</a></li>
+                  <li id="deal_info"><a href="#deal-info-div">Purchase Details</a></li>
+                  <li id="deal_info1" class="active"><a href="#deal-info1-div">Sale Details</a></li>
                   <li id="initial_research" class="checklist"><a>Check List</a></li>
                 </ul>
 
@@ -52,15 +52,15 @@
                           {% endif %}
                           <div class="x_panel">
                             <div class="col-sm-offset-3 col-md-9 col-sm-9 col-xs-12">
-                            <h2 class="form-title">Purchase Deal Details</h2>
+                            <!-- <h2 class="form-title">Purchase Deal Details</h2> -->
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" style="display:none;">
                               <label for="" class="control-label col-md-3 col-sm-3 col-xs-12">{{ lead_status_form.status.label }}</label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
                                 {{ lead_status_form.status|add_error_class:"ve-sh-error-block" }}
                               </div>
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" style="display:none;">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ form.exchange.label }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -74,7 +74,7 @@
                               {% endfor %}
                             {% endif %}
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" style="display:none;">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ form.settlement.label }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -88,7 +88,7 @@
                               {% endfor %}
                             {% endif %}
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" style="display:none;" >
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ form.cool_off_period_expires.label }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -102,7 +102,7 @@
                               {% endfor %}
                             {% endif %}
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" style="display:none;">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ form.purchase_price.label }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12 ve-sh-number-js">
@@ -116,7 +116,7 @@
                               {% endfor %}
                             {% endif %}
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" style="display:none;">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ form.renovation_cost.label }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12 ve-sh-number-js">
@@ -132,7 +132,7 @@
                           </div>
 
                           {% if category == 'withdrawn' or category == 'sixty-days-over' %}
-                            <p class='h5 col-sm-offset-3 col-sm-9 col-xs-12'>Additional Details</p>
+                            <p class='h5 col-sm-offset-3 col-sm-9 col-xs-12' style="display:none;">Additional Details</p>
                             <div class="form-group">
                               <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ additional_property_details_form.start_list_date.label }}
                               </label>
@@ -206,9 +206,9 @@
                               </div>
                             </div>
                           {% else %}
-                            <p class='h5 col-sm-offset-3 col-sm-9 col-xs-12'>Auction Details</p>
+                            <!-- <p class='h5 col-sm-offset-3 col-sm-9 col-xs-12' >Auction Details</p> -->
                             {% for field in auction_form %}
-                              <div class="form-group">
+                              <div class="form-group" style="display:none;">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ field.label }}
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -223,10 +223,10 @@
                             {% endfor %}
                           {% endif %}
 
-                          <div class="col-sm-offset-3 col-md-9 col-sm-9 col-xs-12" >
-                            <!-- <h2 class="form-title">Sale Deal Details</h2> -->
+                          <div class="col-sm-offset-3 col-md-9 col-sm-9 col-xs-12">
+                            <h2 class="form-title">Sale Deal Details</h2>
                           </div>
-                          <div class="form-group" style="display:none;">
+                          <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ sale_deal_info_form.exchange.label }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -240,7 +240,7 @@
                               {% endfor %}
                             {% endif %}
                           </div>
-                          <div class="form-group" style="display:none;">
+                          <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ sale_deal_info_form.settlement.label }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -254,7 +254,7 @@
                               {% endfor %}
                             {% endif %}
                           </div>
-                          <div class="form-group" style="display:none;">
+                          <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ sale_deal_info_form.cool_off_period_expires.label }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -268,7 +268,7 @@
                               {% endfor %}
                             {% endif %}
                           </div>
-                          <div class="form-group" style="display:none;">
+                          <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ sale_deal_info_form.sale_price.label }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12 ve-sh-number-js">
@@ -282,7 +282,7 @@
                               {% endfor %}
                             {% endif %}
                           </div>
-                          <div class="form-group" style="display:none;">
+                          <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ sale_deal_info_form.commission_paid.label }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12 ve-sh-number-js">

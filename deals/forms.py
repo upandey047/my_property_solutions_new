@@ -32,8 +32,10 @@ from .models import (
     ListForSale,
     Sold,
     SaleDealInformation,
+    BankNew
 )
 from leads.models import Bank
+
 
 
 class DealOverviewForm(FormFormatter):
@@ -475,13 +477,14 @@ class AgentForm(forms.ModelForm):
         model =Agent
         fields='__all__'
         
-class Bank1Form(forms.ModelForm):
+class BankNewForm(forms.ModelForm):
     class Meta:
-        model =Bank
-        fields=['bank','unit','office_phone','email']
-        labels = {
-            'unit': 'Postal Address'        
-        }
+        model =BankNew
+        fields='__all__'
+        # fields=['bank','unit','office_phone','email']
+        # labels = {
+        #     'unit': 'Postal Address'        
+        # }
         
 class ExecutorForm(forms.ModelForm):
     class Meta:

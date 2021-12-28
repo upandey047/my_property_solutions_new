@@ -6,7 +6,7 @@ function name(deal_id, lead_id){
     dataType: "json",
     success: function(data, status, xhr) {
       if (data['status'] == 'alert') {
-        alert("Please Go To The Purchase Tab Under Offer Details, Change The Renovation Required Field To Yes And Add The Renovation Allowance");
+        alert("Please Go To The Offerdetails/Purchase and click-->Submitt");
       }
       if (data['status'] == 'redirect') {
         window.location.href = '/dashboard/deals/' + deal_id + '/renovation-details';

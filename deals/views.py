@@ -1,10 +1,7 @@
-from django.db.models import fields
+from django.http.response import JsonResponse
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
-from django.http import JsonResponse
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView,CreateView,UpdateView,DeleteView
-from django.urls import reverse_lazy
 from .forms import (
     DealOverviewForm,
     PurchaseForm,
@@ -55,17 +52,10 @@ from .forms import (
     SaleDealInformationForm,
 )
 from .models import (
-    Agent,
-    Executor,
-    Bank,
-    Family,
-    Liquidator,
-    Other,
     Deal,
     PurchaseComparableSales,
     SaleComparableSales,
     Renovation,
-    Solicitor,
     Team,
     Rooms,
     Tasks,
@@ -81,7 +71,7 @@ from .models import (
     Sold,
     SaleDealInformation,
 )
-from leads.models import Entry, Lounge, Dining, Bathroom, Bedroom,Bank
+from leads.models import Entry, Lounge, Dining, Bathroom, Bedroom
 from leads.forms import (
     PropertyOwnerModelFormset,
     BankruptcyPropertyOwnerModelFormset,
@@ -294,6 +284,164 @@ class DealCardView(LoginRequiredMixin, View):
         else:
             ctx["auction_form"] = second_form
         return render(self.request, "deals/deal.html", ctx)
+    
+class DealSaleCardView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        ctx = self.get_context_data(*args, **kwargs)
+        return render(request, "deals/dealsale.html", ctx)
+
+    @staticmethod
+    def _get_auction_form(category):
+        if category == "sheriff":
+            return AuctionForm
+        return NotSheriffAuctionForm
+
+    def get_context_data(self, *args, **kwargs):
+        deal = Deal.objects.select_related("lead__user", "lead__property").get(
+            lead_id=kwargs["lead_id"]
+        )
+        if deal.lead.user != self.request.user:
+            raise Http404
+        lead = deal.lead
+        property_obj = deal.lead.property
+        category = deal.lead.category
+        sale_deal_info = SaleDealInformation.objects.filter(deal=deal)
+        return {
+            "lead_status_form": LeadStatusForm(instance=lead, prefix="lead"),
+            "form": DealOverviewForm(instance=deal, prefix="purchase_deal"),
+            "additional_property_details_form": AdditionalPropertyDetailsForm(
+                instance=property_obj
+            ),
+            "auction_form": self._get_auction_form(category)(
+                instance=property_obj.property_auction.all().first()
+            ),
+            "sale_deal_info_form": SaleDealInformationForm(
+                instance=sale_deal_info.first(), prefix="sale_deal"
+            ),
+            "category": category,
+            "lead_id": kwargs["lead_id"],
+            "deal_id": deal.pk,
+        }
+
+    def get_success_url(self):
+        messages.success(
+            self.request,
+            "The details have been saved successfully!",
+            extra_tags="submitted",
+        )
+        return reverse_lazy(
+            "dashboard:deals:deal", kwargs={"lead_id": self.kwargs["lead_id"]}
+        )
+
+    def post(self, request, *args, **kwargs):
+        deal = Deal.objects.select_related("lead__user", "lead__property").get(
+            lead_id=kwargs["lead_id"]
+        )
+        if deal.lead.user != self.request.user:
+            raise Http404
+        property_obj = deal.lead.property
+        sale_deal_info = SaleDealInformation.objects.filter(deal=deal)
+        form = DealOverviewForm(
+            request.POST, instance=deal, prefix="purchase_deal"
+        )
+        category = deal.lead.category
+        if sale_deal_info:
+            sale_deal_info_form = SaleDealInformationForm(
+                request.POST,
+                instance=sale_deal_info.first(),
+                prefix="sale_deal",
+            )
+        else:
+            sale_deal_info_form = SaleDealInformationForm(
+                request.POST, prefix="sale_deal"
+            )
+        if category == "withdrawn" or category == "sixty-days-over":
+            second_form = AdditionalPropertyDetailsForm(
+                request.POST, instance=property_obj
+            )
+        elif category == "sheriff":
+            second_form = AuctionForm(
+                request.POST,
+                instance=property_obj.property_auction.all().first(),
+            )
+        else:
+            second_form = NotSheriffAuctionForm(
+                request.POST,
+                instance=property_obj.property_auction.all().first(),
+            )
+        lead_status_form = LeadStatusForm(
+            request.POST, instance=deal.lead, prefix="lead"
+        )
+        if (
+            form.is_valid()
+            and second_form.is_valid()
+            and sale_deal_info_form.is_valid()
+            and lead_status_form.is_valid()
+        ):
+            return self.form_valid(
+                form,
+                sale_deal_info_form,
+                category,
+                lead_status_form,
+                second_form,
+            )
+        else:
+            return self.form_invalid(
+                form,
+                sale_deal_info_form,
+                deal,
+                category,
+                second_form,
+                **kwargs
+            )
+
+    def form_valid(
+        self,
+        form,
+        sale_deal_info_form,
+        category,
+        lead_status_form,
+        second_form=None,
+    ):
+        deal_obj = form.save()
+        lead_status_form.save()
+        if sale_deal_info_form.has_changed():
+            sale_deal_info = sale_deal_info_form.save(commit=False)
+            sale_deal_info.deal = deal_obj
+            sale_deal_info.save()
+        if category == "withdrawn" or category == "sixty-days-over":
+            if second_form:
+                property_obj = second_form.save(commit=False)
+                property_obj.lead = deal_obj.lead
+                property_obj.save()
+        else:
+            if second_form:
+                auction_obj = second_form.save(commit=False)
+                auction_obj._property = deal_obj.lead.property
+                auction_obj.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(
+        self,
+        form,
+        sale_deal_info_form,
+        deal,
+        category,
+        second_form=None,
+        **kwargs
+    ):
+        ctx = {
+            "form": form,
+            "sale_deal_info_form": sale_deal_info_form,
+            "lead_id": self.kwargs["lead_id"],
+            "deal_id": deal.id,
+            "category": deal.lead.category,
+        }
+        if category == "withdrawn" or category == "sixty-days-over":
+            ctx["additional_property_details_form"] = second_form
+        else:
+            ctx["auction_form"] = second_form
+        return render(self.request, "deals/dealsale.html", ctx)
 
 
 class CheckListView(LoginRequiredMixin, View):
@@ -400,24 +548,19 @@ class OwnerDetailsView(LoginRequiredMixin, View):
         deal_object = Deal.objects.select_related("lead__property__bank").get(
             pk=kwargs["deal_id"]
         )
-
         if deal_object.lead.user != self.request.user:
             raise Http404
         property_obj = deal_object.lead.property
-
         category = deal_object.lead.category
-
         if category == "deceased":
             executor_object = property_obj.contact_set.all().filter(
                 category="real-estate", sub_category="executor"
             )
             agent_object = (
                 property_obj.contact_set.all()
-        
                 .filter(category="real-estate", sub_category="agents")
                 .first()
             )
-            
             if not agent_object:
                 agent_object = Contact.objects.create(
                     user=self.request.user,
@@ -431,11 +574,9 @@ class OwnerDetailsView(LoginRequiredMixin, View):
                 .filter(category="real-estate", sub_category="agents")
                 .first()
             )
-            print(executor_object)
         solicitor_queryset = property_obj.contact_set.all().filter(
-            is_solicitor__iexact='yes'
+            category="legal"
         )
-
         bank_object = property_obj.bank
         ctx = {
             "lead_id": deal_object.lead.id,
@@ -655,7 +796,6 @@ class EditAgentDetailsView(LoginRequiredMixin, View):
         if deal_object.lead.user != self.request.user:
             raise Http404
         property_object = deal_object.lead.property
-        
         executor_object = (
             property_object.contact_set.all()
             .filter(category="real-estate", sub_category="agents")
@@ -671,7 +811,6 @@ class EditAgentDetailsView(LoginRequiredMixin, View):
 
     def form_valid(self, form, property_object, category):
         agent_object = form.save(commit=False)
-        
         agent_object._property = property_object
         agent_object.save()
 
@@ -4602,8 +4741,6 @@ class MyPurchaseDetailsView(LoginRequiredMixin, View):
         form.fields["agent"].queryset = contacts_queryset.filter(
             sub_category="agents"
         )
-        print(form.fields["agent"].queryset)
-        print(contacts_queryset.all())
         form.fields["conveyancer"].queryset = contacts_queryset.filter(
             sub_category="conveyancers"
         )
@@ -6596,6 +6733,8 @@ def method_for_calculating_current_expenses(deal_id):  # NOQA: C901
 
     return current_expenses
 
+from .models import Solicitor,Agent,BankNew,Executor,Family,Liquidator,Family,Other
+from django.views.generic import ListView,CreateView,UpdateView,DeleteView,DetailView
 #Solicitor 
 class SolicitorListView(ListView):
     model=Solicitor
@@ -6641,22 +6780,22 @@ class AgentDeleteView(DeleteView):
 
 #Bank
 class BankListView(ListView):
-    model=Bank
+    model=BankNew
     fields = '__all__'
         
 class BankCreateView(CreateView):
-    model=Bank
+    model=BankNew
     fields = '__all__'
    
 
 class BankUpdateView(UpdateView):
-    model=Bank
+    model=BankNew
     fields = '__all__'
     template_name = "deals/bank_form_edit.html"
     
         
 class BankDeleteView(DeleteView):
-    model=Bank
+    model=BankNew
     fields = '__all__'
     success_url=reverse_lazy('dashboard:deals:banklist')    
     
@@ -6755,8 +6894,8 @@ class OtherDeleteView(DeleteView):
     success_url=reverse_lazy('dashboard:deals:otherlist') 
     template_name='deals/other/other_confirm_delete.html'
 
-# from . models import Bank
-from .forms import SolicitorForm,AgentForm,ExecutorForm,FamilyForm,LiquidatorForm,OtherForm,Bank1Form
+from .models import BankNew
+from .forms import SolicitorForm,AgentForm,ExecutorForm,FamilyForm,LiquidatorForm,OtherForm,BankNewForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 #SolicitorViews
@@ -6854,7 +6993,7 @@ def bank_list(request):
     context={}
     id=request.POST.get('id',0)
     # from leads.models import Bank
-    banks=Bank.objects.all().order_by('-id')
+    banks=BankNew.objects.all().order_by('-id')
     print(banks)
     select_list=banks
 
@@ -6867,7 +7006,7 @@ def bank_list(request):
 
 def bank_add(request):
     context={}
-    form =Bank1Form(request.POST or None)
+    form =BankNewForm(request.POST or None)
     if form.is_valid():
         myform =form.save(commit=False)
         d_id = request.POST.get('d_id')
@@ -6880,8 +7019,8 @@ def bank_add(request):
 def bank_edit(request,pk=None):
     context={}
     context['pk']=pk
-    s_obj =Bank.objects.get(pk=pk)
-    form =Bank1Form(request.POST or None, instance=s_obj)
+    s_obj =BankNew.objects.get(pk=pk)
+    form =BankNewForm(request.POST or None, instance=s_obj)
     if form.is_valid():
         form.save()
         return JsonResponse({'success':"ok"})
@@ -6891,7 +7030,7 @@ def bank_edit(request,pk=None):
 def bank_delete(request,pk=None):
     context={}
     context['pk']=pk
-    s_obj =Bank.objects.get(pk=pk)
+    s_obj =BankNew.objects.get(pk=pk)
     if request.method=="POST":
         s_obj.delete()
         return JsonResponse({'success':"ok"})

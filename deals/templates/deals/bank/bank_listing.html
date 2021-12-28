@@ -31,18 +31,20 @@
         <tr>
             
             
-            <td>{{bank.bank}}</td>
-            <td>{{bank.unit}}</td>
+            <td>{{bank.bank|default_if_none:""}}</td>
+            <td>{{bank.unit|default_if_none:""}}</td>
             <!-- <td>{{bank.address}}</td> -->
-            <td>{{bank.office_phone}}</td>
-            <td>{{bank.email}}</td>
+            <td>{{bank.office_phone|default_if_none:""}}</td>
+            <td>{{bank.email|default_if_none:""}}</td>
+            
 
             <td><a onclick="editBank(this)" title="{% url 'dashboard:deals:bank_edit' bank.id %}" class="btn btn-info btn-xs">
                 <i class="fa fa-pencil"></i> Edit</a></td>
             <td><a onclick="deleteBank(this)" title="{% url 'dashboard:deals:bank_delete' bank.id %}"
                    class="btn btn-danger btn-xs ve-sh-del-contact">
                 <i class="fa fa-trash-o"></i> Delete</a></td>
-
+           
+            
         </tr>
       {% endfor %}
 

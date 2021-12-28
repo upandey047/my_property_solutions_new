@@ -5,7 +5,7 @@ from .models import (
     Executor,
     Other,
     Agent,
-    Bank,
+    BankNew,
     Liquidator,
     Deal,
     Purchase,
@@ -36,7 +36,7 @@ from .models import (
 # Register your models here.
 admin.site.register(Solicitor)
 admin.site.register(Agent)
-admin.site.register(Bank)
+admin.site.register(BankNew)
 admin.site.register(Family)
 admin.site.register(Other)
 admin.site.register(Executor)

@@ -32,7 +32,8 @@
             <div class="x_content">
               <div class="container">
                 <ul class="nav nav-tabs">
-                  <li id="deal_info"><a href="#deal-info-div">Deal Info</a></li>
+                  <li id="deal_info"><a href="#deal-info-div">Purchase Details</a></li>
+                  <li id="deal_info1"><a href="#deal-info1-div">Sale Details</a></li>
                   <li id="active_checklist" class="active"><a>Check List</a></li>
                 </ul>
                 <!-- new code -->
@@ -161,6 +162,10 @@
 
     $('#deal_info').on('click', function(){
       window.location.href = '/dashboard/deals/deal/{{ lead_id }}/'
+    });
+
+    $('#deal_info1').on('click', function(){
+      window.location.href = '/dashboard/deals/dealsale/{{ lead_id }}/'
     });
 
     $('.checklist').on('click', function(){
