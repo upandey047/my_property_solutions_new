@@ -3,16 +3,16 @@ SECRET_KEY = '#g(5zv-!kie@0l%&*8ubyv0h(%#l2vie*4=804x0kdi3$4!u)m'
 # To generate a secret key try:
 # python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 
-ALLOWED_HOSTS = []  # List of strings of allowed hosts
+ALLOWED_HOSTS = ['3.25.115.118','*']  # List of strings of allowed hosts
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "my_property_solutions",
         "HOST": "localhost",
-        "USER" : "postgres",
+        "USER" : "scott",
         "PORT": 5432,
-        "PASSWORD": "12345"
+        "PASSWORD": "scott@1234"
     }
 }
 
