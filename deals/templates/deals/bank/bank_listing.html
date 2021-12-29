@@ -7,7 +7,7 @@
         <option value="0"> Select Bank </option>
         {% for bank in select_list %}
          <option value="{{bank.id}}">
-            {{ bank.bank }}
+            {{ bank.name }}
           </option>
         {% endfor %}
 
@@ -18,7 +18,7 @@
         <tr>
          
           <th>Bank Name</th>
-          <!-- <th>Contact Name</th> -->
+          <th>Contact Name</th>
           <th>Postal Address</th>
           <th>Office Phone</th>  
           <th>Email</th>
@@ -31,10 +31,10 @@
         <tr>
             
             
-            <td>{{bank.bank|default_if_none:""}}</td>
-            <td>{{bank.unit|default_if_none:""}}</td>
-            <!-- <td>{{bank.address}}</td> -->
-            <td>{{bank.office_phone|default_if_none:""}}</td>
+            <td>{{bank.name|default_if_none:""}}</td>
+            <td>{{bank.company|default_if_none:""}}</td>
+            <td>{{bank.address}}</td>
+            <td>{{bank.phone|default_if_none:""}}</td>
             <td>{{bank.email|default_if_none:""}}</td>
             
 

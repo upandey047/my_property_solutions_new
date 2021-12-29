@@ -70,7 +70,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px;">
           <div class="x_panel tile overflow_hidden">
             <div class="x_title">
-              <h2>Owner(s)</h2>&ensp;&ensp;
+              <h2>Owner</h2>&ensp;&ensp;
             &ensp;&ensp;&ensp;&ensp;&emsp;&emsp;&emsp;&emsp;&emsp;
             <a href="{% url 'dashboard:deals:edit_owner_details' deal_id %}" class="btn btn-primary">Edit</a>
               <div class="clearfix"></div>
@@ -80,6 +80,7 @@
               
               {% for owner in deal.lead.property.property_owner.all %}
               <table>
+                <!-- <strong>Owner {{ forloop.counter }} Details </strong> -->
                 <strong>First name:&ensp;&ensp;
                   &ensp;&ensp;&ensp;&ensp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</strong>{{ owner.first_name|default_if_none:"" }} 
                 <br>
