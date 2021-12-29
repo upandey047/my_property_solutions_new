@@ -1,6 +1,6 @@
-local_settings.py
+
 *.pyc
-media
+
 **/.terraform/*
 
 .idea
