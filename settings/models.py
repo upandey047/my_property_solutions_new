@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.urls import reverse
 from deals.models import Deal, MyPurchaseDetails
 from django.core.validators import RegexValidator
 from deals.models import (
@@ -262,7 +261,7 @@ class CheckList(models.Model):
     )
 
     def __str__(self):
-        return str(self.category) 
+        return str(self.category) + " " + str(self.event)
 
 
 class DefaultCheckList(models.Model):
@@ -287,14 +286,19 @@ Whenever a user will create a new event, it will be added to the Events table wi
 in the Event table, then that object will be associated to the newly created checklist. Else, a new event object will be created and associated to the newly
 created checklist object.
 """
-'''
+
+
 @receiver(post_save, sender=User)
 def my_handler(sender, **kwargs):
     if kwargs["created"] is True:
         user_instance = kwargs["instance"]
         initial_research = Category.objects.get(
-            category_name="initial_research"
+        category_name="initial_research"
         )
+        # except Category.DoesNotExist:
+        #     pass
+            
+        
         letters = Category.objects.get(category_name="letters")
         inspection = Category.objects.get(category_name="inspection")
         due_diligence = Category.objects.get(category_name="due_diligence")
@@ -319,9 +323,8 @@ def my_handler(sender, **kwargs):
         DefaultCheckList.objects.create(
             user=user_instance,
             category=initial_research,
-            event=Event.objects.get(event_name="New Year Event"),
+            event=Event.objects.get(event_name="RP Data Search of Property"),
         )
-        
         DefaultCheckList.objects.create(
             user=user_instance,
             category=initial_research,
@@ -782,7 +785,7 @@ def my_handler(sender, **kwargs):
             event=Event.objects.get(event_name="Settlement"),
         )
 
-'''
+
 """
 Signal to create Checklist objects and offer details objects
 Whenever a new deal object is created, checklist objects should be created for the user. All Default checklist objects are fetched from the database and
@@ -853,105 +856,3 @@ def signal_on_deal_creation(sender, **kwargs):
 
         # Create MyPurchaseDetails object after the creation of purchase
         MyPurchaseDetails.objects.create(purchase=purchase_obj)
-
-
-
-class InitialResearch(models.Model):
-    eventName=models.CharField(max_length=300)
-    
-    def __str__(self):
-        return self.eventName
-    
-    def get_absolute_url(self):
-        return reverse('dashboard:settings:initial-list')
-    
-    
-class Letter(models.Model):
-    eventName=models.CharField(max_length=300)
-    
-    def __str__(self):
-        return self.eventName
-    
-    def get_absolute_url(self):
-        return reverse('dashboard:settings:letter-list')
-    
-class Inspection(models.Model):
-    eventName=models.CharField(max_length=300)
-    
-    def __str__(self):
-        return self.eventName
-    
-    def get_absolute_url(self):
-        return reverse('dashboard:settings:inspection-list')
-    
-class Due_Diligence(models.Model):
-    eventName=models.CharField(max_length=300)
-    
-    def __str__(self):
-        return self.eventName
-    
-    def get_absolute_url(self):
-        return reverse('dashboard:settings:duedilligence-list')
-    
-class Property_Serach(models.Model):
-    eventName=models.CharField(max_length=300)
-    
-    def __str__(self):
-        return self.eventName
-    
-    def get_absolute_url(self):
-        return reverse('dashboard:settings:propertysearch-list')
-    
-class MarketResearch(models.Model):
-    eventName=models.CharField(max_length=300)
-    
-    def __str__(self):
-        return self.eventName
-    
-    def get_absolute_url(self):
-        return reverse('dashboard:settings:marketresearch-list')
-    
-class Offer_Finance(models.Model):
-    eventName=models.CharField(max_length=300)
-    
-    def __str__(self):
-        return self.eventName
-    
-    def get_absolute_url(self):
-        return reverse('dashboard:settings:offerfinance-list')
-    
-class Exchange_Settlement(models.Model):
-    eventName=models.CharField(max_length=300)
-    
-    def __str__(self):
-        return self.eventName
-    
-    def get_absolute_url(self):
-        return reverse('dashboard:settings:exchangesettlement-list')
-    
-class Renovation(models.Model):
-    eventName=models.CharField(max_length=300)
-    
-    def __str__(self):
-        return self.eventName
-    
-    def get_absolute_url(self):
-        return reverse('dashboard:settings:renovation-list')
-    
-class ListingForSale(models.Model):
-    eventName=models.CharField(max_length=300)
-    
-    def __str__(self):
-        return self.eventName
-    
-    def get_absolute_url(self):
-        return reverse('dashboard:settings:listingforsale-list')
-    
-class Sale_Exchange_Settlement(models.Model):
-    eventName=models.CharField(max_length=300)
-    
-    def __str__(self):
-        return self.eventName
-    
-    def get_absolute_url(self):
-        return reverse('dashboard:settings:saleexchangesettlement-list')

@@ -6,7 +6,7 @@ function name(deal_id, lead_id){
     dataType: "json",
     success: function(data, status, xhr) {
       if (data['status'] == 'alert') {
-        alert("Please Go To The Offerdetails/Purchase and click-->Submitt");
+        alert("Please Go To The Offer Details/Purchase and click-->Submit");
       }
       if (data['status'] == 'redirect') {
         window.location.href = '/dashboard/deals/' + deal_id + '/renovation-details';

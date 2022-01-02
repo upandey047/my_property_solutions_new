@@ -13,24 +13,9 @@ from .models import (
     Event,
     CheckList,
     DefaultCheckList,
-    Entity, Category, Event, 
-  DefaultCheckList, CheckList,
-  InitialResearch, Letter,Inspection,
-  Due_Diligence,Property_Serach,MarketResearch,Offer_Finance,Exchange_Settlement,Renovation,ListingForSale,
-  Sale_Exchange_Settlement,
 )
 
-admin.site.register(InitialResearch)
-admin.site.register(Inspection)
-admin.site.register(Due_Diligence)
-admin.site.register(Property_Serach)
-admin.site.register(Letter)
-admin.site.register(MarketResearch)
-admin.site.register(Offer_Finance)
-admin.site.register(Exchange_Settlement)
-admin.site.register(Renovation)
-admin.site.register(ListingForSale)
-admin.site.register(Sale_Exchange_Settlement)
+
 admin.site.register(Address)
 admin.site.register(RegisteredAddress)
 admin.site.register(Email)

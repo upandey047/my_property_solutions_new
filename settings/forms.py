@@ -66,8 +66,7 @@ class SharesForm(FormFormatter):
 SharesFormSet = forms.formset_factory(SharesForm, extra=1)
 EditSharesFormSet = forms.modelformset_factory(
     Shares, form=SharesForm, exclude=["trust"], extra=0
-)  
-# Formset for editing shares
+)  # Formset for editing shares
 
 
 class TrustForm(FormFormatter):
@@ -102,6 +101,6 @@ class CheckListForm(FormFormatter):
 CheckListFormSet = forms.modelformset_factory(
     CheckList,
     form=CheckListForm,
-    # exclude=("user", "deal", "category"),
+    exclude=("user", "deal", "category"),
     extra=0,
 )
