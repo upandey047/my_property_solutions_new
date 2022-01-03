@@ -199,7 +199,7 @@ class PropertyOwner(models.Model):
 
 class Bank(models.Model):
     """
-    the bank a/c For an owner of a property this will store the bnank details
+    the bank a/c For an owner of a property this will store the bank details
     """
 
     STATUS_CHOICES = (("Yes", "Yes"), ("No", "No"))

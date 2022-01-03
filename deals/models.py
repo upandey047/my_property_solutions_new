@@ -1,3 +1,6 @@
+from django.core.exceptions import ValidationError
+from leads.models import PropertyOwner
+from django.http import HttpResponse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 import datetime
@@ -128,6 +131,8 @@ class Purchase(models.Model):
         null=True,
         blank=True,
     )
+
+
 class PurchaseCosts(models.Model):
     purchase = models.ForeignKey(
         Purchase, on_delete=models.CASCADE, null=True, blank=True
@@ -1097,20 +1102,20 @@ class Sold(models.Model):
         blank=True,
     )
 
-from django.core.exceptions import ValidationError
-from django.http import HttpResponse
-from leads.models import PropertyOwner
-class Solicitor(models.Model):
-    lawFirm=models.CharField(max_length=100)
-    contactName=models.CharField(max_length=300)
-    postalAddress=models.CharField(max_length=400)
-    mobile=models.CharField(max_length=10)
-    officePhone=models.PositiveIntegerField(default=0)
-    officeFax=models.PositiveIntegerField(default=0)
-    email=models.EmailField()
-    owner =models.ForeignKey(PropertyOwner, on_delete=models.CASCADE, null=True,blank=True)
 
-    def get_id(self,obj):
+class Solicitor(models.Model):
+    lawFirm = models.CharField(max_length=100)
+    contactName = models.CharField(max_length=300)
+    postalAddress = models.CharField(max_length=400)
+    mobile = models.CharField(max_length=10)
+    officePhone = models.PositiveIntegerField(default=0)
+    officeFax = models.PositiveIntegerField(default=0)
+    email = models.EmailField()
+    created_by=models.CharField(max_length=100,blank=True,null=True)
+    # deal = models.ForeignKey(
+    #     Deal, on_delete=models.CASCADE, null=True, blank=True)
+
+    def get_id(self, obj):
         return obj.id
 
     def __str__(self):
@@ -1121,126 +1126,125 @@ class Solicitor(models.Model):
 
     def clean(self):
         model = self.__class__
-        if len(str(self.mobile))!= 10:
+        if len(str(self.mobile)) != 10:
             raise ValidationError("Phone number must be 10 digits long!! ")
 
 
 class Agent(models.Model):
-    name=models.CharField(max_length=200)
-    company=models.CharField(max_length=200)
-    address=models.CharField(max_length=400)
-    phone=models.CharField(max_length=10)
-    email=models.EmailField()
+    name = models.CharField(max_length=200)
+    company = models.CharField(max_length=200)
+    address = models.CharField(max_length=400)
+    phone = models.CharField(max_length=10)
+    email = models.EmailField()
+    created_by=models.CharField(max_length=100,blank=True,null=True)
+
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('dashboard:deals:agentlist')
-    
+
     def clean(self):
         model = self.__class__
-        if len(str(self.phone))!= 10:
+        if len(str(self.phone)) != 10:
             raise ValidationError("Phone number must be 10 digits long!! ")
+
 
 class BankNew(models.Model):
-    name=models.CharField(max_length=200)
-    company=models.CharField(max_length=200)
-    address=models.CharField(max_length=400)
-    phone=models.CharField(max_length=10)
-    email=models.EmailField()
-    
+    name = models.CharField(max_length=200)
+    company = models.CharField(max_length=200)
+    address = models.CharField(max_length=400)
+    phone = models.CharField(max_length=10)
+    email = models.EmailField()
+    created_by=models.CharField(max_length=100,blank=True,null=True)
+
     def __str__(self):
         return self.name
 
-    
     def get_absolute_url(self):
         return reverse('dashboard:deals:banklist')
-    
+
     def clean(self):
         model = self.__class__
-        if len(str(self.phone))!= 10:
+        if len(str(self.phone)) != 10:
             raise ValidationError("Phone number must be 10 digits long!! ")
-    
-   
+
+
 class Executor(models.Model):
-    name=models.CharField(max_length=200)
-    company=models.CharField(max_length=200)
-    address=models.CharField(max_length=400)
-    phone=models.CharField(max_length=10)
-    email=models.EmailField()
-    
+    name = models.CharField(max_length=200)
+    company = models.CharField(max_length=200)
+    address = models.CharField(max_length=400)
+    phone = models.CharField(max_length=10)
+    email = models.EmailField()
+    created_by=models.CharField(max_length=100,blank=True,null=True)
+
     def __str__(self):
         return self.name
 
-    
     def get_absolute_url(self):
         return reverse('dashboard:deals:executorlist')
-    
+
     def clean(self):
         model = self.__class__
-        if len(str(self.phone))!= 10:
+        if len(str(self.phone)) != 10:
             raise ValidationError("Phone number must be 10 digits long!! ")
-    
-    
+
+
 class Liquidator(models.Model):
-    name=models.CharField(max_length=200)
-    company=models.CharField(max_length=200)
-    address=models.CharField(max_length=400)
-    phone=models.CharField(max_length=10)
-    email=models.EmailField()
-    
+    name = models.CharField(max_length=200)
+    company = models.CharField(max_length=200)
+    address = models.CharField(max_length=400)
+    phone = models.CharField(max_length=10)
+    email = models.EmailField()
+    created_by=models.CharField(max_length=100,blank=True,null=True)
+
     def __str__(self):
         return self.name
 
-    
     def get_absolute_url(self):
         return reverse('dashboard:deals:liquidatorlist')
-    
+
     def clean(self):
         model = self.__class__
-        if len(str(self.phone))!= 10:
+        if len(str(self.phone)) != 10:
             raise ValidationError("Phone number must be 10 digits long!! ")
-    
+
 
 class Family(models.Model):
-    name=models.CharField(max_length=200)
-    company=models.CharField(max_length=200)
-    address=models.CharField(max_length=400)
-    phone=models.CharField(max_length=10)
-    email=models.EmailField()
-    
+    name = models.CharField(max_length=200)
+    company = models.CharField(max_length=200)
+    address = models.CharField(max_length=400)
+    phone = models.CharField(max_length=10)
+    email = models.EmailField()
+    created_by=models.CharField(max_length=100,blank=True,null=True)
+
     def __str__(self):
         return self.name
 
-    
     def get_absolute_url(self):
         return reverse('dashboard:deals:familylist')
-    
+
     def clean(self):
         model = self.__class__
-        if len(str(self.phone))!= 10:
+        if len(str(self.phone)) != 10:
             raise ValidationError("Phone number must be 10 digits long!! ")
-    
-    
+
 
 class Other(models.Model):
-    name=models.CharField(max_length=200)
-    company=models.CharField(max_length=200)
-    address=models.CharField(max_length=400)
-    phone=models.CharField(max_length=10)
-    email=models.EmailField()
-    
+    name = models.CharField(max_length=200)
+    company = models.CharField(max_length=200)
+    address = models.CharField(max_length=400)
+    phone = models.CharField(max_length=10)
+    email = models.EmailField()
+    created_by=models.CharField(max_length=100,blank=True,null=True)
+
     def __str__(self):
         return self.name
 
-    
     def get_absolute_url(self):
         return reverse('dashboard:deals:otherlist')
-    
+
     def clean(self):
         model = self.__class__
-        if len(str(self.phone))!= 10:
+        if len(str(self.phone)) != 10:
             raise ValidationError("Phone number must be 10 digits long!! ")
-    
-
-    

@@ -11,6 +11,7 @@
                           <th>Office Phone</th>
                           <th>Office Fax</th>
                           <th>Email</th>
+                          <!-- <th>Created By</th> -->
                           <th>Edit</th>
                           <th>Delete</th>
                         </tr>
@@ -26,6 +27,7 @@
                             <td>{{solicitor.officePhone}}</td>
                             <td>{{solicitor.officeFax}}</td>
                             <td>{{solicitor.email}}</td>
+                            <!-- <td>{{solicitor.created_by}}</td> -->
                             <td><a  href="{% url 'dashboard:deals:solicitorupdate' solicitor.id %}" class="btn btn-info btn-xs">
                               <i class="fa fa-pencil"></i> Edit</a></td>
                             <td><a href="{% url 'dashboard:deals:solicitordelete' solicitor.id %}" class="btn btn-danger btn-xs ve-sh-del-contact">

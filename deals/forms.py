@@ -470,17 +470,17 @@ from .models import Solicitor,Agent,Executor,Liquidator,Family,Other
 class SolicitorForm(forms.ModelForm):
     class Meta:
         model =Solicitor
-        exclude=("owner",)
+        exclude=("created_by",)
         
 class AgentForm(forms.ModelForm):
     class Meta:
         model =Agent
-        fields='__all__'
+        exclude=("created_by",)
         
 class BankNewForm(forms.ModelForm):
     class Meta:
         model =BankNew
-        fields='__all__'
+        exclude=("created_by",)
         # fields=['bank','unit','office_phone','email']
         # labels = {
         #     'unit': 'Postal Address'        
@@ -489,22 +489,22 @@ class BankNewForm(forms.ModelForm):
 class ExecutorForm(forms.ModelForm):
     class Meta:
         model =Executor
-        fields='__all__'
+        exclude=("created_by",)
         
 class FamilyForm(forms.ModelForm):
     class Meta:
         model =Family
-        fields='__all__'
+        exclude=("created_by",)
         
 class LiquidatorForm(forms.ModelForm):
     class Meta:
         model =Liquidator
-        fields='__all__'
+        exclude=("created_by",)
         
 class OtherForm(forms.ModelForm):
     class Meta:
         model =Other
-        fields='__all__'
+        exclude=("created_by",)
 
         
 

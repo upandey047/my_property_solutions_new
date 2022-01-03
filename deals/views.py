@@ -6897,12 +6897,14 @@ class OtherDeleteView(DeleteView):
 from .models import BankNew
 from .forms import SolicitorForm,AgentForm,ExecutorForm,FamilyForm,LiquidatorForm,OtherForm,BankNewForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
 
 #SolicitorViews
+
 def solicitor_list(request):
     context={}
     id=request.POST.get('id',0)
-    solicitors=Solicitor.objects.filter().order_by('-id')
+    solicitors=Solicitor.objects.filter(created_by=str(request.user)).order_by('-id')
     select_list=solicitors
 
     if not id=="0" or 0:
@@ -6916,7 +6918,9 @@ def solicitor_add(request):
     form =SolicitorForm(request.POST or None)
     if form.is_valid():
         myform =form.save(commit=False)
+        myform.created_by=str(request.user)
         d_id = request.POST.get('d_id')
+        # print(d_id)
         # myform.owner_id="1"
         myform.save()
         return JsonResponse({'success':"ok"})
@@ -6947,7 +6951,7 @@ def solicitor_delete(request,pk=None):
 def agent_list(request):
     context={}
     id=request.POST.get('id',0)
-    agents=Agent.objects.filter().order_by('-id')
+    agents=Agent.objects.filter(created_by=str(request.user)).order_by('-id')
     select_list=agents
 
     if not id=="0" or 0:
@@ -6961,6 +6965,7 @@ def agent_add(request):
     form =AgentForm(request.POST or None)
     if form.is_valid():
         myform =form.save(commit=False)
+        myform.created_by=str(request.user)
         d_id = request.POST.get('d_id')
         # myform.owner_id="1"
         myform.save()
@@ -6993,7 +6998,7 @@ def bank_list(request):
     context={}
     id=request.POST.get('id',0)
     # from leads.models import Bank
-    banks=BankNew.objects.all().order_by('-id')
+    banks=BankNew.objects.filter(created_by=str(request.user)).order_by('-id')
     print(banks)
     select_list=banks
 
@@ -7009,6 +7014,7 @@ def bank_add(request):
     form =BankNewForm(request.POST or None)
     if form.is_valid():
         myform =form.save(commit=False)
+        myform.created_by=str(request.user)
         d_id = request.POST.get('d_id')
         # myform.owner_id="1"
         myform.save()
@@ -7041,7 +7047,7 @@ def bank_delete(request,pk=None):
 def executor_list(request):
     context={}
     id=request.POST.get('id',0)
-    executors=Executor.objects.filter().order_by('-id')
+    executors=Executor.objects.filter(created_by=str(request.user)).order_by('-id')
     select_list=executors
 
     if not id=="0" or 0:
@@ -7055,6 +7061,7 @@ def executor_add(request):
     form =ExecutorForm(request.POST or None)
     if form.is_valid():
         myform =form.save(commit=False)
+        myform.created_by=str(request.user)
         d_id = request.POST.get('d_id')
         # myform.owner_id="1"
         myform.save()
@@ -7086,7 +7093,7 @@ def executor_delete(request,pk=None):
 def family_list(request):
     context={}
     id=request.POST.get('id',0)
-    familys=Family.objects.filter().order_by('-id')
+    familys=Family.objects.filter(created_by=str(request.user)).order_by('-id')
     select_list=familys
 
     if not id=="0" or 0:
@@ -7100,6 +7107,7 @@ def family_add(request):
     form =FamilyForm(request.POST or None)
     if form.is_valid():
         myform =form.save(commit=False)
+        myform.created_by=str(request.user)
         d_id = request.POST.get('d_id')
         # myform.owner_id="1"
         myform.save()
@@ -7131,7 +7139,7 @@ def family_delete(request,pk=None):
 def liquidator_list(request):
     context={}
     id=request.POST.get('id',0)
-    liquidators=Liquidator.objects.filter().order_by('-id')
+    liquidators=Liquidator.objects.filter(created_by=str(request.user)).order_by('-id')
     select_list=liquidators
 
     if not id=="0" or 0:
@@ -7145,6 +7153,7 @@ def liquidator_add(request):
     form =LiquidatorForm(request.POST or None)
     if form.is_valid():
         myform =form.save(commit=False)
+        myform.created_by=str(request.user)
         d_id = request.POST.get('d_id')
         # myform.owner_id="1"
         myform.save()
@@ -7176,7 +7185,7 @@ def liquidator_delete(request,pk=None):
 def other_list(request):
     context={}
     id=request.POST.get('id',0)
-    others=Other.objects.filter().order_by('-id')
+    others=Other.objects.filter(created_by=str(request.user)).order_by('-id')
     select_list=others
 
     if not id=="0" or 0:
@@ -7190,6 +7199,7 @@ def other_add(request):
     form =OtherForm(request.POST or None)
     if form.is_valid():
         myform =form.save(commit=False)
+        myform.created_by=str(request.user)
         d_id = request.POST.get('d_id')
         # myform.owner_id="1"
         myform.save()
